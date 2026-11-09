@@ -1,0 +1,6 @@
+PASS: 78 routes/methods and request contracts preserved.
+PASS: All DTO schemas and successful response schemas preserved.
+PASS: JWT Bearer scheme preserved; security requirements are documented per endpoint.
+PASS: All operations have XML Summary and Description.
+PASS: EF SQL mapping unchanged; no schema SQL executed.
+Documentation correction: change-password POST now documents its actual 204 response.

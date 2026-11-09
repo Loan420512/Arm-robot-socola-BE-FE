@@ -1,0 +1,130 @@
+C:\Users\Admin\source\repos\BE-SWD\BE-SWD.Tests\BE-SWD.Tests.csproj : warning NU1900: Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.
+PASS: Confirm Pending order
+PASS: Cancel reserved order
+PASS: Completed is terminal
+PASS: Repeated transition cannot deduct stock twice
+PASS: Cancelled is terminal
+PASS: Cannot skip processing
+PASS: Incident can enter investigation
+PASS: Resolved incident cannot reopen arbitrarily
+PASS: Refund status is not an order status
+PASS: Exactly 13 mapped tables
+PASS: SQL column mapping
+PASS: Payment order uniqueness
+PASS: Refund payment uniqueness
+PASS: Required color name
+PASS: Preserved nullable admin username
+PASS: No cascading deletes
+PASS: SQL order constraint uses centralized catalogue
+PASS: SQL payment constraint uses centralized catalogue
+PASS: SQL role constraint uses Admin-only catalogue
+PASS: Invalid HEX rejected
+PASS: Valid HEX accepted
+PASS: BCrypt hash format
+PASS: Swagger UI serves HTTP
+PASS: Development startup loads JWT secret from User Secrets without an environment override
+PASS: All module paths appear in OpenAPI
+PASS: Swagger excludes password hashes
+PASS: Swagger payment methods match DTO validation
+PASS: Swagger requires explicit cash receipt confirmation
+PASS: Swagger has JWT Authorize
+PASS: Swagger retains all five HTTP methods
+PASS: Anonymous blocked: get /api/admin
+PASS: Anonymous blocked: post /api/admin
+PASS: Anonymous blocked: get /api/admin/{id}
+PASS: Anonymous blocked: put /api/admin/{id}
+PASS: Anonymous blocked: delete /api/admin/{id}
+PASS: Anonymous blocked: get /api/auth/me
+PASS: Anonymous blocked: post /api/auth/change-password
+PASS: Anonymous blocked: get /api/cash-flow-audits
+PASS: Anonymous blocked: post /api/cash-flow-audits
+PASS: Anonymous blocked: get /api/cash-flow-audits/{id}
+PASS: Anonymous blocked: put /api/cash-flow-audits/{id}
+PASS: Anonymous blocked: get /api/choco-templates
+PASS: Anonymous blocked: post /api/choco-templates
+PASS: Anonymous blocked: get /api/choco-templates/{id}
+PASS: Anonymous blocked: put /api/choco-templates/{id}
+PASS: Anonymous blocked: delete /api/choco-templates/{id}
+PASS: Anonymous blocked: get /api/choco-templates/by-plate-type/{id}
+PASS: Anonymous blocked: get /api/customers
+PASS: Anonymous blocked: post /api/customers
+PASS: Anonymous blocked: get /api/customers/{id}
+PASS: Anonymous blocked: put /api/customers/{id}
+PASS: Anonymous blocked: delete /api/customers/{id}
+PASS: Anonymous blocked: get /api/dashboard/overview
+PASS: Anonymous blocked: get /api/dashboard/revenue
+PASS: Anonymous blocked: get /api/dashboard/orders-statistics
+PASS: Anonymous blocked: get /api/dashboard/top-plates
+PASS: Anonymous blocked: get /api/dashboard/payment-statistics
+PASS: Anonymous blocked: get /api/incident-reports
+PASS: Anonymous blocked: post /api/incident-reports
+PASS: Anonymous blocked: get /api/incident-reports/{id}
+PASS: Anonymous blocked: put /api/incident-reports/{id}
+PASS: Anonymous blocked: patch /api/incident-reports/{id}/status
+PASS: Anonymous blocked: get /api/orders
+PASS: Anonymous blocked: post /api/orders
+PASS: Anonymous blocked: get /api/orders/{id}
+PASS: Anonymous blocked: put /api/orders/{id}
+PASS: Anonymous blocked: patch /api/orders/{id}/status
+PASS: Anonymous blocked: get /api/orders/by-customer/{id}
+PASS: Anonymous blocked: get /api/payments
+PASS: Anonymous blocked: post /api/payments
+PASS: Anonymous blocked: get /api/payments/{id}
+PASS: Anonymous blocked: get /api/payments/by-order/{id}
+PASS: Anonymous blocked: get /api/plates
+PASS: Anonymous blocked: post /api/plates
+PASS: Anonymous blocked: get /api/plates/{id}
+PASS: Anonymous blocked: put /api/plates/{id}
+PASS: Anonymous blocked: delete /api/plates/{id}
+PASS: Anonymous blocked: get /api/plates/by-color/{id}
+PASS: Anonymous blocked: get /api/plates/by-type/{id}
+PASS: Anonymous blocked: get /api/plate-colors
+PASS: Anonymous blocked: post /api/plate-colors
+PASS: Anonymous blocked: get /api/plate-colors/{id}
+PASS: Anonymous blocked: put /api/plate-colors/{id}
+PASS: Anonymous blocked: delete /api/plate-colors/{id}
+PASS: Anonymous blocked: patch /api/plate-colors/{id}/status
+PASS: Anonymous blocked: get /api/plate-types
+PASS: Anonymous blocked: post /api/plate-types
+PASS: Anonymous blocked: get /api/plate-types/{id}
+PASS: Anonymous blocked: put /api/plate-types/{id}
+PASS: Anonymous blocked: delete /api/plate-types/{id}
+PASS: Anonymous blocked: get /api/refunds
+PASS: Anonymous blocked: post /api/refunds
+PASS: Anonymous blocked: get /api/refunds/{id}
+PASS: Anonymous blocked: patch /api/refunds/{id}/approve
+PASS: Anonymous blocked: patch /api/refunds/{id}/reject
+PASS: Anonymous blocked: get /api/staff
+PASS: Anonymous blocked: post /api/staff
+PASS: Anonymous blocked: get /api/staff/{id}
+PASS: Anonymous blocked: put /api/staff/{id}
+PASS: Anonymous blocked: delete /api/staff/{id}
+PASS: Anonymous blocked: patch /api/staff/{id}/status
+PASS: Anonymous blocked: get /api/template-elements
+PASS: Anonymous blocked: post /api/template-elements
+PASS: Anonymous blocked: get /api/template-elements/{id}
+PASS: Anonymous blocked: put /api/template-elements/{id}
+PASS: Anonymous blocked: delete /api/template-elements/{id}
+PASS: Anonymous blocked: get /api/template-elements/by-template/{id}
+PASS: Login required fields validated before SQL
+PASS: Non-Admin JWT rejected
+PASS: Expired JWT rejected
+PASS: Authenticated pagination validation
+PASS: Authenticated HEX validation
+PASS: Swagger order status catalogue matches runtime
+PASS: Cross-module order status rejected before SQL
+PASS: Cross-module incident status rejected before SQL
+PASS: Cash payment without receipt confirmation rejected before SQL
+PASS: Unreceived cash cannot become a successful payment
+PASS: Unknown payment method rejected before SQL
+PASS: Missing active flag cannot silently disable a color
+PASS: SQL connection failure mapped to 500
+PASS: Database errors do not expose connection or stack trace
+PASS: Plate list fails on unavailable SQL instead of returning fake products
+PASS: Dashboard fails on unavailable SQL instead of returning fixed statistics
+PASS: Missing SQL configuration fails startup without fallback
+PASS: Missing JWT secret fails startup without fallback
+PASS: Short JWT secret rejected at startup
+PASS: Accidental database target rejected before connecting
+PASS: Wildcard CORS configuration rejected
+RESULT: 128 checks passed. SQL CRUD not tested: requires configured SQL Server.

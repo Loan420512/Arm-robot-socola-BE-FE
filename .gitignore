@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+.vs/
+*.user
+*.log
+appsettings.Local.json
+.refactor-checks/
+.swagger-checks/
+
+artifacts/
+BE-SWD/App_Data/

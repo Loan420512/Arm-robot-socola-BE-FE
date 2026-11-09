@@ -1,0 +1,4 @@
+OpenAPI JSON deep equality: PASS (before and after are identical).
+HTTP operations preserved: 78.
+EF-generated SQL mapping equality: PASS (before and after are identical).
+No SQL schema script was executed.

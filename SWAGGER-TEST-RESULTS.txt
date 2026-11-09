@@ -1,0 +1,503 @@
+PASS: Confirm Pending order
+PASS: Cancel reserved order
+PASS: Completed is terminal
+PASS: Repeated transition cannot deduct stock twice
+PASS: Cancelled is terminal
+PASS: Cannot skip processing
+PASS: Incident can enter investigation
+PASS: Resolved incident cannot reopen arbitrarily
+PASS: Refund status is not an order status
+PASS: Exactly 13 mapped tables
+PASS: SQL column mapping
+PASS: Payment order uniqueness
+PASS: Refund payment uniqueness
+PASS: Required color name
+PASS: Preserved nullable admin username
+PASS: No cascading deletes
+PASS: SQL order constraint uses centralized catalogue
+PASS: SQL payment constraint uses centralized catalogue
+PASS: SQL role constraint uses Admin-only catalogue
+PASS: Invalid HEX rejected
+PASS: Valid HEX accepted
+PASS: BCrypt hash format
+PASS: Swagger UI serves HTTP
+PASS: All module paths appear in OpenAPI
+PASS: Swagger excludes password hashes
+PASS: Swagger groups follow the requested admin.xxx order
+PASS: Swagger documentation title is configured
+PASS: Non-empty Swagger summary: GET /api/admin
+PASS: Non-empty Swagger description: GET /api/admin
+PASS: Correct Swagger group: GET /api/admin
+PASS: Success status documented: GET /api/admin
+PASS: Parameters described: GET /api/admin
+PASS: Non-empty Swagger summary: POST /api/admin
+PASS: Non-empty Swagger description: POST /api/admin
+PASS: Correct Swagger group: POST /api/admin
+PASS: Success status documented: POST /api/admin
+PASS: Non-empty Swagger summary: GET /api/admin/{id}
+PASS: Non-empty Swagger description: GET /api/admin/{id}
+PASS: Correct Swagger group: GET /api/admin/{id}
+PASS: Success status documented: GET /api/admin/{id}
+PASS: Parameters described: GET /api/admin/{id}
+PASS: Non-empty Swagger summary: PUT /api/admin/{id}
+PASS: Non-empty Swagger description: PUT /api/admin/{id}
+PASS: Correct Swagger group: PUT /api/admin/{id}
+PASS: Success status documented: PUT /api/admin/{id}
+PASS: Parameters described: PUT /api/admin/{id}
+PASS: Non-empty Swagger summary: DELETE /api/admin/{id}
+PASS: Non-empty Swagger description: DELETE /api/admin/{id}
+PASS: Correct Swagger group: DELETE /api/admin/{id}
+PASS: Success status documented: DELETE /api/admin/{id}
+PASS: Parameters described: DELETE /api/admin/{id}
+PASS: Non-empty Swagger summary: POST /api/auth/login
+PASS: Non-empty Swagger description: POST /api/auth/login
+PASS: Correct Swagger group: POST /api/auth/login
+PASS: Success status documented: POST /api/auth/login
+PASS: Non-empty Swagger summary: GET /api/auth/me
+PASS: Non-empty Swagger description: GET /api/auth/me
+PASS: Correct Swagger group: GET /api/auth/me
+PASS: Success status documented: GET /api/auth/me
+PASS: Non-empty Swagger summary: POST /api/auth/change-password
+PASS: Non-empty Swagger description: POST /api/auth/change-password
+PASS: Correct Swagger group: POST /api/auth/change-password
+PASS: Success status documented: POST /api/auth/change-password
+PASS: Non-empty Swagger summary: GET /api/cash-flow-audits
+PASS: Non-empty Swagger description: GET /api/cash-flow-audits
+PASS: Correct Swagger group: GET /api/cash-flow-audits
+PASS: Success status documented: GET /api/cash-flow-audits
+PASS: Parameters described: GET /api/cash-flow-audits
+PASS: Non-empty Swagger summary: POST /api/cash-flow-audits
+PASS: Non-empty Swagger description: POST /api/cash-flow-audits
+PASS: Correct Swagger group: POST /api/cash-flow-audits
+PASS: Success status documented: POST /api/cash-flow-audits
+PASS: Non-empty Swagger summary: GET /api/cash-flow-audits/{id}
+PASS: Non-empty Swagger description: GET /api/cash-flow-audits/{id}
+PASS: Correct Swagger group: GET /api/cash-flow-audits/{id}
+PASS: Success status documented: GET /api/cash-flow-audits/{id}
+PASS: Parameters described: GET /api/cash-flow-audits/{id}
+PASS: Non-empty Swagger summary: PUT /api/cash-flow-audits/{id}
+PASS: Non-empty Swagger description: PUT /api/cash-flow-audits/{id}
+PASS: Correct Swagger group: PUT /api/cash-flow-audits/{id}
+PASS: Success status documented: PUT /api/cash-flow-audits/{id}
+PASS: Parameters described: PUT /api/cash-flow-audits/{id}
+PASS: Non-empty Swagger summary: GET /api/choco-templates
+PASS: Non-empty Swagger description: GET /api/choco-templates
+PASS: Correct Swagger group: GET /api/choco-templates
+PASS: Success status documented: GET /api/choco-templates
+PASS: Parameters described: GET /api/choco-templates
+PASS: Non-empty Swagger summary: POST /api/choco-templates
+PASS: Non-empty Swagger description: POST /api/choco-templates
+PASS: Correct Swagger group: POST /api/choco-templates
+PASS: Success status documented: POST /api/choco-templates
+PASS: Non-empty Swagger summary: GET /api/choco-templates/{id}
+PASS: Non-empty Swagger description: GET /api/choco-templates/{id}
+PASS: Correct Swagger group: GET /api/choco-templates/{id}
+PASS: Success status documented: GET /api/choco-templates/{id}
+PASS: Parameters described: GET /api/choco-templates/{id}
+PASS: Non-empty Swagger summary: PUT /api/choco-templates/{id}
+PASS: Non-empty Swagger description: PUT /api/choco-templates/{id}
+PASS: Correct Swagger group: PUT /api/choco-templates/{id}
+PASS: Success status documented: PUT /api/choco-templates/{id}
+PASS: Parameters described: PUT /api/choco-templates/{id}
+PASS: Non-empty Swagger summary: DELETE /api/choco-templates/{id}
+PASS: Non-empty Swagger description: DELETE /api/choco-templates/{id}
+PASS: Correct Swagger group: DELETE /api/choco-templates/{id}
+PASS: Success status documented: DELETE /api/choco-templates/{id}
+PASS: Parameters described: DELETE /api/choco-templates/{id}
+PASS: Non-empty Swagger summary: GET /api/choco-templates/by-plate-type/{id}
+PASS: Non-empty Swagger description: GET /api/choco-templates/by-plate-type/{id}
+PASS: Correct Swagger group: GET /api/choco-templates/by-plate-type/{id}
+PASS: Success status documented: GET /api/choco-templates/by-plate-type/{id}
+PASS: Parameters described: GET /api/choco-templates/by-plate-type/{id}
+PASS: Non-empty Swagger summary: GET /api/customers
+PASS: Non-empty Swagger description: GET /api/customers
+PASS: Correct Swagger group: GET /api/customers
+PASS: Success status documented: GET /api/customers
+PASS: Parameters described: GET /api/customers
+PASS: Non-empty Swagger summary: POST /api/customers
+PASS: Non-empty Swagger description: POST /api/customers
+PASS: Correct Swagger group: POST /api/customers
+PASS: Success status documented: POST /api/customers
+PASS: Non-empty Swagger summary: GET /api/customers/{id}
+PASS: Non-empty Swagger description: GET /api/customers/{id}
+PASS: Correct Swagger group: GET /api/customers/{id}
+PASS: Success status documented: GET /api/customers/{id}
+PASS: Parameters described: GET /api/customers/{id}
+PASS: Non-empty Swagger summary: PUT /api/customers/{id}
+PASS: Non-empty Swagger description: PUT /api/customers/{id}
+PASS: Correct Swagger group: PUT /api/customers/{id}
+PASS: Success status documented: PUT /api/customers/{id}
+PASS: Parameters described: PUT /api/customers/{id}
+PASS: Non-empty Swagger summary: DELETE /api/customers/{id}
+PASS: Non-empty Swagger description: DELETE /api/customers/{id}
+PASS: Correct Swagger group: DELETE /api/customers/{id}
+PASS: Success status documented: DELETE /api/customers/{id}
+PASS: Parameters described: DELETE /api/customers/{id}
+PASS: Non-empty Swagger summary: GET /api/dashboard/overview
+PASS: Non-empty Swagger description: GET /api/dashboard/overview
+PASS: Correct Swagger group: GET /api/dashboard/overview
+PASS: Success status documented: GET /api/dashboard/overview
+PASS: Non-empty Swagger summary: GET /api/dashboard/revenue
+PASS: Non-empty Swagger description: GET /api/dashboard/revenue
+PASS: Correct Swagger group: GET /api/dashboard/revenue
+PASS: Success status documented: GET /api/dashboard/revenue
+PASS: Non-empty Swagger summary: GET /api/dashboard/orders-statistics
+PASS: Non-empty Swagger description: GET /api/dashboard/orders-statistics
+PASS: Correct Swagger group: GET /api/dashboard/orders-statistics
+PASS: Success status documented: GET /api/dashboard/orders-statistics
+PASS: Non-empty Swagger summary: GET /api/dashboard/top-plates
+PASS: Non-empty Swagger description: GET /api/dashboard/top-plates
+PASS: Correct Swagger group: GET /api/dashboard/top-plates
+PASS: Success status documented: GET /api/dashboard/top-plates
+PASS: Non-empty Swagger summary: GET /api/dashboard/payment-statistics
+PASS: Non-empty Swagger description: GET /api/dashboard/payment-statistics
+PASS: Correct Swagger group: GET /api/dashboard/payment-statistics
+PASS: Success status documented: GET /api/dashboard/payment-statistics
+PASS: Non-empty Swagger summary: GET /api/incident-reports
+PASS: Non-empty Swagger description: GET /api/incident-reports
+PASS: Correct Swagger group: GET /api/incident-reports
+PASS: Success status documented: GET /api/incident-reports
+PASS: Parameters described: GET /api/incident-reports
+PASS: Non-empty Swagger summary: POST /api/incident-reports
+PASS: Non-empty Swagger description: POST /api/incident-reports
+PASS: Correct Swagger group: POST /api/incident-reports
+PASS: Success status documented: POST /api/incident-reports
+PASS: Non-empty Swagger summary: GET /api/incident-reports/{id}
+PASS: Non-empty Swagger description: GET /api/incident-reports/{id}
+PASS: Correct Swagger group: GET /api/incident-reports/{id}
+PASS: Success status documented: GET /api/incident-reports/{id}
+PASS: Parameters described: GET /api/incident-reports/{id}
+PASS: Non-empty Swagger summary: PUT /api/incident-reports/{id}
+PASS: Non-empty Swagger description: PUT /api/incident-reports/{id}
+PASS: Correct Swagger group: PUT /api/incident-reports/{id}
+PASS: Success status documented: PUT /api/incident-reports/{id}
+PASS: Parameters described: PUT /api/incident-reports/{id}
+PASS: Non-empty Swagger summary: PATCH /api/incident-reports/{id}/status
+PASS: Non-empty Swagger description: PATCH /api/incident-reports/{id}/status
+PASS: Correct Swagger group: PATCH /api/incident-reports/{id}/status
+PASS: Success status documented: PATCH /api/incident-reports/{id}/status
+PASS: Parameters described: PATCH /api/incident-reports/{id}/status
+PASS: Non-empty Swagger summary: GET /api/orders
+PASS: Non-empty Swagger description: GET /api/orders
+PASS: Correct Swagger group: GET /api/orders
+PASS: Success status documented: GET /api/orders
+PASS: Parameters described: GET /api/orders
+PASS: Non-empty Swagger summary: POST /api/orders
+PASS: Non-empty Swagger description: POST /api/orders
+PASS: Correct Swagger group: POST /api/orders
+PASS: Success status documented: POST /api/orders
+PASS: Non-empty Swagger summary: GET /api/orders/{id}
+PASS: Non-empty Swagger description: GET /api/orders/{id}
+PASS: Correct Swagger group: GET /api/orders/{id}
+PASS: Success status documented: GET /api/orders/{id}
+PASS: Parameters described: GET /api/orders/{id}
+PASS: Non-empty Swagger summary: PUT /api/orders/{id}
+PASS: Non-empty Swagger description: PUT /api/orders/{id}
+PASS: Correct Swagger group: PUT /api/orders/{id}
+PASS: Success status documented: PUT /api/orders/{id}
+PASS: Parameters described: PUT /api/orders/{id}
+PASS: Non-empty Swagger summary: PATCH /api/orders/{id}/status
+PASS: Non-empty Swagger description: PATCH /api/orders/{id}/status
+PASS: Correct Swagger group: PATCH /api/orders/{id}/status
+PASS: Success status documented: PATCH /api/orders/{id}/status
+PASS: Parameters described: PATCH /api/orders/{id}/status
+PASS: Non-empty Swagger summary: GET /api/orders/by-customer/{id}
+PASS: Non-empty Swagger description: GET /api/orders/by-customer/{id}
+PASS: Correct Swagger group: GET /api/orders/by-customer/{id}
+PASS: Success status documented: GET /api/orders/by-customer/{id}
+PASS: Parameters described: GET /api/orders/by-customer/{id}
+PASS: Non-empty Swagger summary: GET /api/payments
+PASS: Non-empty Swagger description: GET /api/payments
+PASS: Correct Swagger group: GET /api/payments
+PASS: Success status documented: GET /api/payments
+PASS: Parameters described: GET /api/payments
+PASS: Non-empty Swagger summary: POST /api/payments
+PASS: Non-empty Swagger description: POST /api/payments
+PASS: Correct Swagger group: POST /api/payments
+PASS: Success status documented: POST /api/payments
+PASS: Non-empty Swagger summary: GET /api/payments/{id}
+PASS: Non-empty Swagger description: GET /api/payments/{id}
+PASS: Correct Swagger group: GET /api/payments/{id}
+PASS: Success status documented: GET /api/payments/{id}
+PASS: Parameters described: GET /api/payments/{id}
+PASS: Non-empty Swagger summary: GET /api/payments/by-order/{id}
+PASS: Non-empty Swagger description: GET /api/payments/by-order/{id}
+PASS: Correct Swagger group: GET /api/payments/by-order/{id}
+PASS: Success status documented: GET /api/payments/by-order/{id}
+PASS: Parameters described: GET /api/payments/by-order/{id}
+PASS: Non-empty Swagger summary: GET /api/plates
+PASS: Non-empty Swagger description: GET /api/plates
+PASS: Correct Swagger group: GET /api/plates
+PASS: Success status documented: GET /api/plates
+PASS: Parameters described: GET /api/plates
+PASS: Non-empty Swagger summary: POST /api/plates
+PASS: Non-empty Swagger description: POST /api/plates
+PASS: Correct Swagger group: POST /api/plates
+PASS: Success status documented: POST /api/plates
+PASS: Non-empty Swagger summary: GET /api/plates/{id}
+PASS: Non-empty Swagger description: GET /api/plates/{id}
+PASS: Correct Swagger group: GET /api/plates/{id}
+PASS: Success status documented: GET /api/plates/{id}
+PASS: Parameters described: GET /api/plates/{id}
+PASS: Non-empty Swagger summary: PUT /api/plates/{id}
+PASS: Non-empty Swagger description: PUT /api/plates/{id}
+PASS: Correct Swagger group: PUT /api/plates/{id}
+PASS: Success status documented: PUT /api/plates/{id}
+PASS: Parameters described: PUT /api/plates/{id}
+PASS: Non-empty Swagger summary: DELETE /api/plates/{id}
+PASS: Non-empty Swagger description: DELETE /api/plates/{id}
+PASS: Correct Swagger group: DELETE /api/plates/{id}
+PASS: Success status documented: DELETE /api/plates/{id}
+PASS: Parameters described: DELETE /api/plates/{id}
+PASS: Non-empty Swagger summary: GET /api/plates/by-color/{id}
+PASS: Non-empty Swagger description: GET /api/plates/by-color/{id}
+PASS: Correct Swagger group: GET /api/plates/by-color/{id}
+PASS: Success status documented: GET /api/plates/by-color/{id}
+PASS: Parameters described: GET /api/plates/by-color/{id}
+PASS: Non-empty Swagger summary: GET /api/plates/by-type/{id}
+PASS: Non-empty Swagger description: GET /api/plates/by-type/{id}
+PASS: Correct Swagger group: GET /api/plates/by-type/{id}
+PASS: Success status documented: GET /api/plates/by-type/{id}
+PASS: Parameters described: GET /api/plates/by-type/{id}
+PASS: Non-empty Swagger summary: GET /api/plate-colors
+PASS: Non-empty Swagger description: GET /api/plate-colors
+PASS: Correct Swagger group: GET /api/plate-colors
+PASS: Success status documented: GET /api/plate-colors
+PASS: Parameters described: GET /api/plate-colors
+PASS: Non-empty Swagger summary: POST /api/plate-colors
+PASS: Non-empty Swagger description: POST /api/plate-colors
+PASS: Correct Swagger group: POST /api/plate-colors
+PASS: Success status documented: POST /api/plate-colors
+PASS: Non-empty Swagger summary: GET /api/plate-colors/{id}
+PASS: Non-empty Swagger description: GET /api/plate-colors/{id}
+PASS: Correct Swagger group: GET /api/plate-colors/{id}
+PASS: Success status documented: GET /api/plate-colors/{id}
+PASS: Parameters described: GET /api/plate-colors/{id}
+PASS: Non-empty Swagger summary: PUT /api/plate-colors/{id}
+PASS: Non-empty Swagger description: PUT /api/plate-colors/{id}
+PASS: Correct Swagger group: PUT /api/plate-colors/{id}
+PASS: Success status documented: PUT /api/plate-colors/{id}
+PASS: Parameters described: PUT /api/plate-colors/{id}
+PASS: Non-empty Swagger summary: DELETE /api/plate-colors/{id}
+PASS: Non-empty Swagger description: DELETE /api/plate-colors/{id}
+PASS: Correct Swagger group: DELETE /api/plate-colors/{id}
+PASS: Success status documented: DELETE /api/plate-colors/{id}
+PASS: Parameters described: DELETE /api/plate-colors/{id}
+PASS: Non-empty Swagger summary: PATCH /api/plate-colors/{id}/status
+PASS: Non-empty Swagger description: PATCH /api/plate-colors/{id}/status
+PASS: Correct Swagger group: PATCH /api/plate-colors/{id}/status
+PASS: Success status documented: PATCH /api/plate-colors/{id}/status
+PASS: Parameters described: PATCH /api/plate-colors/{id}/status
+PASS: Non-empty Swagger summary: GET /api/plate-types
+PASS: Non-empty Swagger description: GET /api/plate-types
+PASS: Correct Swagger group: GET /api/plate-types
+PASS: Success status documented: GET /api/plate-types
+PASS: Parameters described: GET /api/plate-types
+PASS: Non-empty Swagger summary: POST /api/plate-types
+PASS: Non-empty Swagger description: POST /api/plate-types
+PASS: Correct Swagger group: POST /api/plate-types
+PASS: Success status documented: POST /api/plate-types
+PASS: Non-empty Swagger summary: GET /api/plate-types/{id}
+PASS: Non-empty Swagger description: GET /api/plate-types/{id}
+PASS: Correct Swagger group: GET /api/plate-types/{id}
+PASS: Success status documented: GET /api/plate-types/{id}
+PASS: Parameters described: GET /api/plate-types/{id}
+PASS: Non-empty Swagger summary: PUT /api/plate-types/{id}
+PASS: Non-empty Swagger description: PUT /api/plate-types/{id}
+PASS: Correct Swagger group: PUT /api/plate-types/{id}
+PASS: Success status documented: PUT /api/plate-types/{id}
+PASS: Parameters described: PUT /api/plate-types/{id}
+PASS: Non-empty Swagger summary: DELETE /api/plate-types/{id}
+PASS: Non-empty Swagger description: DELETE /api/plate-types/{id}
+PASS: Correct Swagger group: DELETE /api/plate-types/{id}
+PASS: Success status documented: DELETE /api/plate-types/{id}
+PASS: Parameters described: DELETE /api/plate-types/{id}
+PASS: Non-empty Swagger summary: GET /api/refunds
+PASS: Non-empty Swagger description: GET /api/refunds
+PASS: Correct Swagger group: GET /api/refunds
+PASS: Success status documented: GET /api/refunds
+PASS: Parameters described: GET /api/refunds
+PASS: Non-empty Swagger summary: POST /api/refunds
+PASS: Non-empty Swagger description: POST /api/refunds
+PASS: Correct Swagger group: POST /api/refunds
+PASS: Success status documented: POST /api/refunds
+PASS: Non-empty Swagger summary: GET /api/refunds/{id}
+PASS: Non-empty Swagger description: GET /api/refunds/{id}
+PASS: Correct Swagger group: GET /api/refunds/{id}
+PASS: Success status documented: GET /api/refunds/{id}
+PASS: Parameters described: GET /api/refunds/{id}
+PASS: Non-empty Swagger summary: PATCH /api/refunds/{id}/approve
+PASS: Non-empty Swagger description: PATCH /api/refunds/{id}/approve
+PASS: Correct Swagger group: PATCH /api/refunds/{id}/approve
+PASS: Success status documented: PATCH /api/refunds/{id}/approve
+PASS: Parameters described: PATCH /api/refunds/{id}/approve
+PASS: Non-empty Swagger summary: PATCH /api/refunds/{id}/reject
+PASS: Non-empty Swagger description: PATCH /api/refunds/{id}/reject
+PASS: Correct Swagger group: PATCH /api/refunds/{id}/reject
+PASS: Success status documented: PATCH /api/refunds/{id}/reject
+PASS: Parameters described: PATCH /api/refunds/{id}/reject
+PASS: Non-empty Swagger summary: GET /api/staff
+PASS: Non-empty Swagger description: GET /api/staff
+PASS: Correct Swagger group: GET /api/staff
+PASS: Success status documented: GET /api/staff
+PASS: Parameters described: GET /api/staff
+PASS: Non-empty Swagger summary: POST /api/staff
+PASS: Non-empty Swagger description: POST /api/staff
+PASS: Correct Swagger group: POST /api/staff
+PASS: Success status documented: POST /api/staff
+PASS: Non-empty Swagger summary: GET /api/staff/{id}
+PASS: Non-empty Swagger description: GET /api/staff/{id}
+PASS: Correct Swagger group: GET /api/staff/{id}
+PASS: Success status documented: GET /api/staff/{id}
+PASS: Parameters described: GET /api/staff/{id}
+PASS: Non-empty Swagger summary: PUT /api/staff/{id}
+PASS: Non-empty Swagger description: PUT /api/staff/{id}
+PASS: Correct Swagger group: PUT /api/staff/{id}
+PASS: Success status documented: PUT /api/staff/{id}
+PASS: Parameters described: PUT /api/staff/{id}
+PASS: Non-empty Swagger summary: DELETE /api/staff/{id}
+PASS: Non-empty Swagger description: DELETE /api/staff/{id}
+PASS: Correct Swagger group: DELETE /api/staff/{id}
+PASS: Success status documented: DELETE /api/staff/{id}
+PASS: Parameters described: DELETE /api/staff/{id}
+PASS: Non-empty Swagger summary: PATCH /api/staff/{id}/status
+PASS: Non-empty Swagger description: PATCH /api/staff/{id}/status
+PASS: Correct Swagger group: PATCH /api/staff/{id}/status
+PASS: Success status documented: PATCH /api/staff/{id}/status
+PASS: Parameters described: PATCH /api/staff/{id}/status
+PASS: Non-empty Swagger summary: GET /api/template-elements
+PASS: Non-empty Swagger description: GET /api/template-elements
+PASS: Correct Swagger group: GET /api/template-elements
+PASS: Success status documented: GET /api/template-elements
+PASS: Parameters described: GET /api/template-elements
+PASS: Non-empty Swagger summary: POST /api/template-elements
+PASS: Non-empty Swagger description: POST /api/template-elements
+PASS: Correct Swagger group: POST /api/template-elements
+PASS: Success status documented: POST /api/template-elements
+PASS: Non-empty Swagger summary: GET /api/template-elements/{id}
+PASS: Non-empty Swagger description: GET /api/template-elements/{id}
+PASS: Correct Swagger group: GET /api/template-elements/{id}
+PASS: Success status documented: GET /api/template-elements/{id}
+PASS: Parameters described: GET /api/template-elements/{id}
+PASS: Non-empty Swagger summary: PUT /api/template-elements/{id}
+PASS: Non-empty Swagger description: PUT /api/template-elements/{id}
+PASS: Correct Swagger group: PUT /api/template-elements/{id}
+PASS: Success status documented: PUT /api/template-elements/{id}
+PASS: Parameters described: PUT /api/template-elements/{id}
+PASS: Non-empty Swagger summary: DELETE /api/template-elements/{id}
+PASS: Non-empty Swagger description: DELETE /api/template-elements/{id}
+PASS: Correct Swagger group: DELETE /api/template-elements/{id}
+PASS: Success status documented: DELETE /api/template-elements/{id}
+PASS: Parameters described: DELETE /api/template-elements/{id}
+PASS: Non-empty Swagger summary: GET /api/template-elements/by-template/{id}
+PASS: Non-empty Swagger description: GET /api/template-elements/by-template/{id}
+PASS: Correct Swagger group: GET /api/template-elements/by-template/{id}
+PASS: Success status documented: GET /api/template-elements/by-template/{id}
+PASS: Parameters described: GET /api/template-elements/by-template/{id}
+PASS: Password change documents its actual 204 response
+PASS: Anonymous login is not marked as requiring JWT
+PASS: Protected endpoints document their JWT requirement
+PASS: Swagger failure examples show success false
+PASS: Swagger payment methods match DTO validation
+PASS: Swagger requires explicit cash receipt confirmation
+PASS: Swagger has JWT Authorize
+PASS: Swagger retains all five HTTP methods
+PASS: Anonymous blocked: get /api/admin
+PASS: Anonymous blocked: post /api/admin
+PASS: Anonymous blocked: get /api/admin/{id}
+PASS: Anonymous blocked: put /api/admin/{id}
+PASS: Anonymous blocked: delete /api/admin/{id}
+PASS: Anonymous blocked: get /api/auth/me
+PASS: Anonymous blocked: post /api/auth/change-password
+PASS: Anonymous blocked: get /api/cash-flow-audits
+PASS: Anonymous blocked: post /api/cash-flow-audits
+PASS: Anonymous blocked: get /api/cash-flow-audits/{id}
+PASS: Anonymous blocked: put /api/cash-flow-audits/{id}
+PASS: Anonymous blocked: get /api/choco-templates
+PASS: Anonymous blocked: post /api/choco-templates
+PASS: Anonymous blocked: get /api/choco-templates/{id}
+PASS: Anonymous blocked: put /api/choco-templates/{id}
+PASS: Anonymous blocked: delete /api/choco-templates/{id}
+PASS: Anonymous blocked: get /api/choco-templates/by-plate-type/{id}
+PASS: Anonymous blocked: get /api/customers
+PASS: Anonymous blocked: post /api/customers
+PASS: Anonymous blocked: get /api/customers/{id}
+PASS: Anonymous blocked: put /api/customers/{id}
+PASS: Anonymous blocked: delete /api/customers/{id}
+PASS: Anonymous blocked: get /api/dashboard/overview
+PASS: Anonymous blocked: get /api/dashboard/revenue
+PASS: Anonymous blocked: get /api/dashboard/orders-statistics
+PASS: Anonymous blocked: get /api/dashboard/top-plates
+PASS: Anonymous blocked: get /api/dashboard/payment-statistics
+PASS: Anonymous blocked: get /api/incident-reports
+PASS: Anonymous blocked: post /api/incident-reports
+PASS: Anonymous blocked: get /api/incident-reports/{id}
+PASS: Anonymous blocked: put /api/incident-reports/{id}
+PASS: Anonymous blocked: patch /api/incident-reports/{id}/status
+PASS: Anonymous blocked: get /api/orders
+PASS: Anonymous blocked: post /api/orders
+PASS: Anonymous blocked: get /api/orders/{id}
+PASS: Anonymous blocked: put /api/orders/{id}
+PASS: Anonymous blocked: patch /api/orders/{id}/status
+PASS: Anonymous blocked: get /api/orders/by-customer/{id}
+PASS: Anonymous blocked: get /api/payments
+PASS: Anonymous blocked: post /api/payments
+PASS: Anonymous blocked: get /api/payments/{id}
+PASS: Anonymous blocked: get /api/payments/by-order/{id}
+PASS: Anonymous blocked: get /api/plates
+PASS: Anonymous blocked: post /api/plates
+PASS: Anonymous blocked: get /api/plates/{id}
+PASS: Anonymous blocked: put /api/plates/{id}
+PASS: Anonymous blocked: delete /api/plates/{id}
+PASS: Anonymous blocked: get /api/plates/by-color/{id}
+PASS: Anonymous blocked: get /api/plates/by-type/{id}
+PASS: Anonymous blocked: get /api/plate-colors
+PASS: Anonymous blocked: post /api/plate-colors
+PASS: Anonymous blocked: get /api/plate-colors/{id}
+PASS: Anonymous blocked: put /api/plate-colors/{id}
+PASS: Anonymous blocked: delete /api/plate-colors/{id}
+PASS: Anonymous blocked: patch /api/plate-colors/{id}/status
+PASS: Anonymous blocked: get /api/plate-types
+PASS: Anonymous blocked: post /api/plate-types
+PASS: Anonymous blocked: get /api/plate-types/{id}
+PASS: Anonymous blocked: put /api/plate-types/{id}
+PASS: Anonymous blocked: delete /api/plate-types/{id}
+PASS: Anonymous blocked: get /api/refunds
+PASS: Anonymous blocked: post /api/refunds
+PASS: Anonymous blocked: get /api/refunds/{id}
+PASS: Anonymous blocked: patch /api/refunds/{id}/approve
+PASS: Anonymous blocked: patch /api/refunds/{id}/reject
+PASS: Anonymous blocked: get /api/staff
+PASS: Anonymous blocked: post /api/staff
+PASS: Anonymous blocked: get /api/staff/{id}
+PASS: Anonymous blocked: put /api/staff/{id}
+PASS: Anonymous blocked: delete /api/staff/{id}
+PASS: Anonymous blocked: patch /api/staff/{id}/status
+PASS: Anonymous blocked: get /api/template-elements
+PASS: Anonymous blocked: post /api/template-elements
+PASS: Anonymous blocked: get /api/template-elements/{id}
+PASS: Anonymous blocked: put /api/template-elements/{id}
+PASS: Anonymous blocked: delete /api/template-elements/{id}
+PASS: Anonymous blocked: get /api/template-elements/by-template/{id}
+PASS: Login required fields validated before SQL
+PASS: Non-Admin JWT rejected
+PASS: Expired JWT rejected
+PASS: Authenticated pagination validation
+PASS: Authenticated HEX validation
+PASS: Swagger order status catalogue matches runtime
+PASS: Cross-module order status rejected before SQL
+PASS: Cross-module incident status rejected before SQL
+PASS: Cash payment without receipt confirmation rejected before SQL
+PASS: Unreceived cash cannot become a successful payment
+PASS: Unknown payment method rejected before SQL
+PASS: Missing active flag cannot silently disable a color
+PASS: SQL connection failure mapped to 500
+PASS: Database errors do not expose connection or stack trace
+PASS: Plate list fails on unavailable SQL instead of returning fake products
+PASS: Dashboard fails on unavailable SQL instead of returning fixed statistics
+PASS: Missing SQL configuration fails startup without fallback
+PASS: Missing JWT secret fails startup without fallback
+PASS: Short JWT secret rejected at startup
+PASS: Accidental database target rejected before connecting
+PASS: Wildcard CORS configuration rejected
+RESULT: 502 checks passed. SQL CRUD not tested: requires configured SQL Server.
