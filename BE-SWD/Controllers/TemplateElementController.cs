@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.TemplateElements)]
 [ApiController, Route(ApiRoutes.TemplateElements), Authorize(Roles = SystemRoles.Admin)]
 public class TemplateElementController(
     ICrudService<TemplateElement, CreateRequest, UpdateRequest, ResponseDto> service) : ControllerBase
@@ -146,3 +145,4 @@ public class TemplateElementController(
         return List(filter);
     }
 }
+

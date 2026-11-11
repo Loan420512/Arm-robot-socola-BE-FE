@@ -13,6 +13,8 @@ builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 
 
 // 2. Đọc và kiểm tra cấu hình; không sử dụng khóa bí mật mặc định.
 var jwtOptions = builder.BindValidatedOptions<JwtOptions>(JwtOptions.Section);
+var customerRegistration = builder.BindValidatedOptions<CustomerRegistrationOptions>(CustomerRegistrationOptions.Section);
+builder.Services.AddSingleton<CustomerRegistrationGuard>();
 var securityOptions = builder.BindValidatedOptions<SecurityOptions>(SecurityOptions.Section);
 builder.BindValidatedOptions<ReportingOptions>(ReportingOptions.Section);
 
@@ -35,7 +37,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddCorsPolicy(builder.Configuration);
 
 // 9. Giới hạn số lần đăng nhập theo địa chỉ IP.
-builder.Services.AddLoginRateLimiting(securityOptions);
+builder.Services.AddLoginRateLimiting(securityOptions, customerRegistration);
 
 // 10. Sinh tài liệu Swagger từ Controller và DTO thật.
 builder.Services.AddSwaggerDocumentation();
@@ -91,4 +93,5 @@ app.Run();
 public partial class Program
 {
 }
+
 

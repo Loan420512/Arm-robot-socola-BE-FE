@@ -88,11 +88,6 @@ public class BusinessRules(
                 break;
         }
 
-        if (create && entity is Customer customer)
-        {
-            customer.CreatedAt = DateTime.Now;
-        }
-
         if (create && entity is ChocoTemplate template)
         {
             template.CreatedAt = DateTime.Now;
@@ -379,3 +374,5 @@ public static class Workflow
         };
     }
 }
+
+

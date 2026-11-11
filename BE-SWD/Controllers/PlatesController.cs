@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Plates)]
 [ApiController, Route(ApiRoutes.Plates), Authorize(Roles = SystemRoles.Admin)]
 public class PlateController(
     ICrudService<Plate, CreateRequest, UpdateRequest, ResponseDto> service) : ControllerBase
@@ -167,3 +166,4 @@ public class PlateController(
         return List(filter);
     }
 }
+

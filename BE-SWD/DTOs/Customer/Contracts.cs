@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChocoRobot.DTOs.Customer;
 
+[System.Text.Json.Serialization.JsonUnmappedMemberHandling(System.Text.Json.Serialization.JsonUnmappedMemberHandling.Disallow)]
 public class CreateRequest
 {
     [Required]
@@ -14,6 +15,7 @@ public class CreateRequest
     [Required]
     [MaxLength(20)]
     [Phone]
+    [RegularExpression(@"\+?[0-9]{8,15}", ErrorMessage = "Phone must contain 8 to 15 digits with an optional leading +.")]
     public string? Phone
     {
         get; set;
@@ -55,3 +57,6 @@ public class ResponseDto
         get; set;
     }
 }
+
+public sealed record RegistrationResponse(int CustomerId);
+

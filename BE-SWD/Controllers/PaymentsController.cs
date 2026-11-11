@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Payments)]
 [ApiController, Route(ApiRoutes.Payments), Authorize(Roles = SystemRoles.Admin)]
 public class PaymentController(
     ICrudService<Payment, CreateRequest, UpdateRequest, ResponseDto> service,
@@ -104,3 +103,4 @@ public class PaymentController(
             await payments.ByOrder(id));
     }
 }
+

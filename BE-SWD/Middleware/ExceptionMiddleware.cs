@@ -44,6 +44,9 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             return apiException.Status;
         }
 
+        if (exception is BadHttpRequestException requestException)
+            return requestException.StatusCode;
+
         if (sqlException?.Number is 2601 or 2627 or 547 or 1205)
         {
             return StatusCodes.Status409Conflict;
@@ -63,9 +66,11 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
 
         return statusCode switch
         {
+            StatusCodes.Status413PayloadTooLarge => "Request body is too large",
             StatusCodes.Status409Conflict => "Data conflicts with an existing record or reference",
             StatusCodes.Status400BadRequest => ApiMessages.ValidationFailed,
             _ => "Unable to process the request"
         };
     }
 }
+

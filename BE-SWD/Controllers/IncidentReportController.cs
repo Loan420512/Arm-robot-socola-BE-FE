@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.IncidentReports)]
 [ApiController, Route(ApiRoutes.IncidentReports), Authorize(Roles = SystemRoles.Admin)]
 public class IncidentReportController(
     ICrudService<IncidentReport, CreateRequest, UpdateRequest, ResponseDto> service,
@@ -127,3 +126,4 @@ public class IncidentReportController(
         return NoContent();
     }
 }
+

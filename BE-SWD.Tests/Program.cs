@@ -19,6 +19,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
+if (args.Contains("--customer-live"))
+{
+    await CustomerRegistrationChecks.Run();
+    return;
+}
 if (args.Contains("--staff-checks") || args.Contains("--staff-checks-sql"))
 {
     await StaffChecks.Run(args.Contains("--staff-checks-sql"));
@@ -172,6 +177,7 @@ if (!useDevelopmentSecrets)
 start.Environment["ASPNETCORE_ENVIRONMENT"] = "Development";
 start.Environment["DOTNET_ENVIRONMENT"] = "Development";
 start.Environment["ASPNETCORE_URLS"] = testUrl.ToString();
+start.Environment["CustomerRegistration__PermitLimit"] = "20";
 start.Environment["Bootstrap__Username"] = "";
 start.Environment["ConnectionStrings__DefaultConnection"] = failureConnection;
 using var process = Process.Start(start)!;
@@ -215,24 +221,31 @@ try
         File.WriteAllText(Path.Combine(snapshotDirectory, "openapi.json"), spec);
     Check(paths.EnumerateObject().Count() >= 40, "All module paths appear in OpenAPI");
     Check(!spec.Contains("passwordHash", StringComparison.OrdinalIgnoreCase), "Swagger excludes password hashes");
-    var expectedTags = new[]
-    {
-        "admin.auth", "admin.admins", "admin.customers", "admin.staff", "admin.plate-types",
-        "admin.plate-colors", "admin.plates", "admin.choco-templates", "admin.template-elements",
-        "admin.orders", "admin.payments", "admin.refunds", "admin.incident-reports",
-        "admin.cash-flow-audits", "admin.dashboard"
-    };
-    var declaredTags = json.RootElement.GetProperty("tags").EnumerateArray()
-        .Select(tag => tag.GetProperty("name").GetString());
-    Check(declaredTags.SequenceEqual(expectedTags), "Swagger groups follow the requested admin.xxx order");
+    var controllerTypes = typeof(ChocoRobot.Controllers.AuthController).Assembly.GetTypes()
+        .Where(type => !type.IsAbstract && typeof(Microsoft.AspNetCore.Mvc.ControllerBase).IsAssignableFrom(type)).ToArray();
+    var expectedTags = new[] { "authentication", "admin-management", "customer-management", "staff-management",
+        "plate-type-management", "plate-color-management", "plate-management", "chocolate-design-management",
+        "design-element-management", "order-management", "payment-management", "refund-management",
+        "incident-management", "cash-flow-audit-management", "dashboard-reports" }.Order().ToArray();
+    var actualTags = paths.EnumerateObject().SelectMany(path => path.Value.EnumerateObject())
+        .SelectMany(method => method.Value.GetProperty("tags").EnumerateArray().Select(tag => tag.GetString()!)).Distinct().Order().ToArray();
+    Check(actualTags.SequenceEqual(expectedTags), "Swagger groups match requested business names");
+    Check(!actualTags.Any(tag => tag.StartsWith("admin.") || tag == "customer.registration"), "No custom admin.xxx or registration tags remain");
+    Check(json.RootElement.GetProperty("tags").EnumerateArray().All(tag => !string.IsNullOrWhiteSpace(tag.GetProperty("description").GetString())),
+        "Every business group has an English description");
     Check(json.RootElement.GetProperty("info").GetProperty("title").GetString() == "ChocoRobot API Documentation",
         "Swagger documentation title is configured");
 
     foreach (var documentedPath in paths.EnumerateObject())
     {
-        var resource = documentedPath.Name.Split('/')[2];
-        var expectedTag = resource == "admin" ? SwaggerGroups.Admins : "admin." + resource;
-
+        var controllerType = controllerTypes.OrderByDescending(type =>
+                ((Microsoft.AspNetCore.Mvc.RouteAttribute)Attribute.GetCustomAttribute(type, typeof(Microsoft.AspNetCore.Mvc.RouteAttribute))!).Template.Length)
+            .First(type =>
+            {
+                var route = ((Microsoft.AspNetCore.Mvc.RouteAttribute)Attribute.GetCustomAttribute(type, typeof(Microsoft.AspNetCore.Mvc.RouteAttribute))!).Template.TrimStart('/');
+                return documentedPath.Name == "/" + route || documentedPath.Name.StartsWith("/" + route + "/");
+            });
+        var expectedTag = SwaggerBusinessGroups.TagFor(controllerType);
         foreach (var documentedMethod in documentedPath.Value.EnumerateObject())
         {
             var operation = documentedMethod.Value;
@@ -289,7 +302,7 @@ json.RootElement.GetProperty("components").GetProperty("securitySchemes").GetPro
 new[] { "get", "post", "put", "patch", "delete" }.All(methods.Contains),
  "Swagger retains all five HTTP methods"
 );
-    foreach (var p in paths.EnumerateObject().Where(p => p.Name != "/api/auth/login"))
+    foreach (var p in paths.EnumerateObject().Where(p => p.Name != "/api/auth/login" && p.Name != "/api/customers"))
     {
         foreach (var method in p.Value.EnumerateObject().Select(x => x.Name))
         {
@@ -305,6 +318,34 @@ new[] { "get", "post", "put", "patch", "delete" }.All(methods.Contains),
 })).StatusCode == HttpStatusCode.BadRequest,
  "Login required fields validated before SQL"
 );
+    var registration = paths.GetProperty("/api/customers").GetProperty("post");
+    Check(registration.GetProperty("tags")[0].GetString() == "customer-management"
+        && (!registration.TryGetProperty("security", out var publicSecurity) || publicSecurity.GetArrayLength() == 0), "Public registration Swagger has no JWT requirement");
+    Check(paths.GetProperty("/api/customers").EnumerateObject().Count() == 1
+        && !paths.TryGetProperty("/api/customers/{id}", out _), "Public route exposes only POST");
+    Check(schemas.GetProperty(typeof(ChocoRobot.DTOs.Customer.CreateRequest).FullName!).GetProperty("properties")
+        .EnumerateObject().Select(p => p.Name).Order().SequenceEqual(new[] { "email", "fullName", "phone" }), "Customer request contains exactly three contact fields");
+    foreach (var invalid in new object[] {
+        new { fullName = " ", phone = "0901234567", email = "test@example.invalid" },
+        new { fullName = "Test", phone = "abc", email = "test@example.invalid" },
+        new { fullName = "Test", phone = "0901234567", email = "invalid" },
+        new { fullName = new string('a', 101), phone = "0901234567", email = "test@example.invalid" },
+        new { fullName = "Test", phone = "0901234567", email = "test@example.invalid", password = "unexpected" },
+        new { fullName = "Test", phone = "0901234567", email = "test@example.invalid", id = 7, createdAt = DateTime.UtcNow }
+    })
+        Check((await client.PostAsJsonAsync("/api/customers", invalid)).StatusCode == HttpStatusCode.BadRequest, "Anonymous customer input rejected before SQL");
+    var contact = new { fullName = "HTTP validation", phone = "0901234567", email = Guid.NewGuid().ToString("N") + "@example.invalid" };
+    Check((await client.PostAsJsonAsync("/api/customers", contact)).StatusCode == HttpStatusCode.InternalServerError,
+        "Public customer POST without JWT reaches SQL");
+    Check((await client.PostAsJsonAsync("/api/customers", contact)).StatusCode == HttpStatusCode.TooManyRequests,
+        "Duplicate submission cooldown blocks repeated contacts");
+    for (int attempt = 0; attempt < 21; attempt++)
+    {
+        using var limited = await client.PostAsJsonAsync("/api/customers", new { });
+        if (attempt == 20) Check(limited.StatusCode == HttpStatusCode.TooManyRequests, "Public IP rate limit returns 429");
+    }
+    Check((await client.GetAsync("/api/admin/customers")).StatusCode == HttpStatusCode.Unauthorized, "Admin customer API still requires JWT after public rate limit");
+
     var testSubject = RandomNumberGenerator.GetInt32(1, int.MaxValue).ToString(); // Validation tests never load this test-only subject from SQL.
     string Token(string role, DateTime expiry) => new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
 configuration["Jwt:Issuer"],
@@ -315,6 +356,11 @@ configuration["Jwt:Issuer"],
 ));
     client.DefaultRequestHeaders.Authorization = new("Bearer", Token("Guest", DateTime.UtcNow.AddMinutes(5)));
     Check((await client.GetAsync("/api/plates")).StatusCode == HttpStatusCode.Forbidden, "Non-Admin JWT rejected");
+    foreach (var method in new[] { HttpMethod.Get, HttpMethod.Post, HttpMethod.Put, HttpMethod.Delete })
+    {
+        using var denied = new HttpRequestMessage(method, method == HttpMethod.Get || method == HttpMethod.Post ? "/api/admin/customers" : "/api/admin/customers/1");
+        Check((await client.SendAsync(denied)).StatusCode == HttpStatusCode.Forbidden, "Non-Admin blocked on customer administration: " + method);
+    }
     client.DefaultRequestHeaders.Authorization = new("Bearer", Token("Admin", DateTime.UtcNow.AddMinutes(-1)));
     Check((await client.GetAsync("/api/plates")).StatusCode == HttpStatusCode.Unauthorized, "Expired JWT rejected");
     client.DefaultRequestHeaders.Authorization = new("Bearer", Token("Admin", DateTime.UtcNow.AddMinutes(5)));
@@ -523,6 +569,10 @@ finally
     if (!process.HasExited)
         process.Kill(true);
 }
+
+
+
+
 
 
 

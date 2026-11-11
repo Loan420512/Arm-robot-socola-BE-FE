@@ -149,6 +149,7 @@ public static class ApiRoutes
     public const string Admin = Prefix + "admin";
     public const string Auth = Prefix + "auth";
     public const string Customers = Prefix + "customers";
+    public const string AdminCustomers = Prefix + "admin/customers";
     public const string Staff = Prefix + "staff";
     public const string PlateTypes = Prefix + "plate-types";
     public const string PlateColors = Prefix + "plate-colors";
@@ -195,3 +196,4 @@ public static class DatabaseDefinitions
     public const string Name = "ChocoRobotDB";
     public const string ConnectionName = "DefaultConnection";
 }
+

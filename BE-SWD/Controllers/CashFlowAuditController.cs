@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.CashFlowAudits)]
 [ApiController, Route(ApiRoutes.CashFlowAudits), Authorize(Roles = SystemRoles.Admin)]
 public class CashFlowAuditController(
     ICrudService<CashFlowAudit, CreateRequest, UpdateRequest, ResponseDto> service) : ControllerBase
@@ -112,3 +111,4 @@ public class CashFlowAuditController(
             await service.Update(id, request));
     }
 }
+

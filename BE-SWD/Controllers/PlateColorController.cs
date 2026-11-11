@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.PlateColors)]
 [ApiController, Route(ApiRoutes.PlateColors), Authorize(Roles = SystemRoles.Admin)]
 public class PlateColorController(
     ICrudService<PlateColor, CreateRequest, UpdateRequest, ResponseDto> service,
@@ -147,3 +146,4 @@ public class PlateColorController(
         return NoContent();
     }
 }
+

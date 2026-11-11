@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Staff)]
 [ApiController, Route(ApiRoutes.Staff), Authorize(Roles = SystemRoles.Admin)]
 public class StaffController(
     ICrudService<Staff, CreateRequest, UpdateRequest, ResponseDto> service,
@@ -147,4 +146,5 @@ public class StaffController(
         return NoContent();
     }
 }
+
 

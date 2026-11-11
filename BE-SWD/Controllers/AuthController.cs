@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Auth)]
 [ApiController, Route(ApiRoutes.Auth), Authorize(Roles = SystemRoles.Admin)]
 public class AuthController(
     AuthService service) : ControllerBase
@@ -70,3 +69,4 @@ public class AuthController(
         return NoContent();
     }
 }
+

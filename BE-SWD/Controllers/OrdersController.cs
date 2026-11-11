@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Orders)]
 [ApiController, Route(ApiRoutes.Orders), Authorize(Roles = SystemRoles.Admin)]
 public class OrderController(
     ICrudService<Order, CreateRequest, UpdateRequest, ResponseDto> service,
@@ -152,3 +151,4 @@ public class OrderController(
         return List(filter);
     }
 }
+

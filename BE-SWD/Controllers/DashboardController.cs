@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Dashboard)]
 [ApiController, Route(ApiRoutes.Dashboard), Authorize(Roles = SystemRoles.Admin)]
 public class DashboardController(
     DashboardService service) : ControllerBase
@@ -110,3 +109,4 @@ public class DashboardController(
             await service.Payments());
     }
 }
+

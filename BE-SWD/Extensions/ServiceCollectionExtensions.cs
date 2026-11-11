@@ -175,10 +175,34 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddLoginRateLimiting(
         this IServiceCollection services,
-        SecurityOptions securityOptions)
+        SecurityOptions securityOptions, CustomerRegistrationOptions customerRegistration)
     {
         services.AddRateLimiter(options =>
         {
+            options.AddPolicy(CustomerRegistrationOptions.RatePolicy, context =>
+                RateLimitPartition.GetFixedWindowLimiter(context.Connection.RemoteIpAddress?.ToString() ?? "unknown", _ =>
+                    new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = customerRegistration.PermitLimit,
+                        Window = TimeSpan.FromSeconds(customerRegistration.WindowSeconds), QueueLimit = 0
+                    }));
+            // A shared budget also bounds distributed spam without trusting spoofable forwarding headers.
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    context.GetEndpoint()?.Metadata.GetMetadata<Microsoft.AspNetCore.RateLimiting.EnableRateLimitingAttribute>()?.PolicyName == CustomerRegistrationOptions.RatePolicy
+                        ? "customer-registration" : "other",
+                    key => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = key == "customer-registration" ? customerRegistration.GlobalPermitLimit : int.MaxValue,
+                        Window = TimeSpan.FromSeconds(customerRegistration.WindowSeconds), QueueLimit = 0
+                    }));
+            options.OnRejected = async (context, cancellationToken) =>
+            {
+                if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+                    context.HttpContext.Response.Headers.RetryAfter = Math.Ceiling(retryAfter.TotalSeconds).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                await context.HttpContext.Response.WriteAsJsonAsync(
+                    new ApiResponse<object>(false, "Too many requests. Try again later.", null), cancellationToken);
+            };
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
             options.AddPolicy(AuthDefinitions.LoginRatePolicy, context =>
             {
@@ -208,7 +232,8 @@ public static class ServiceCollectionExtensions
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             options.IncludeXmlComments(xmlPath);
             options.OperationFilter<SwaggerOperationDocumentation>();
-            options.DocumentFilter<SwaggerGroupOrderFilter>();
+            options.OperationFilter<SwaggerBusinessGroups>();
+            options.DocumentFilter<SwaggerBusinessGroups>();
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "ChocoRobot API Documentation",
@@ -227,3 +252,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
 }
+
+
+

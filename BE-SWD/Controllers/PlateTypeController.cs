@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.PlateTypes)]
 [ApiController, Route(ApiRoutes.PlateTypes), Authorize(Roles = SystemRoles.Admin)]
 public class PlateTypeController(
     ICrudService<PlateType, CreateRequest, UpdateRequest, ResponseDto> service) : ControllerBase
@@ -125,3 +124,4 @@ public class PlateTypeController(
         return NoContent();
     }
 }
+

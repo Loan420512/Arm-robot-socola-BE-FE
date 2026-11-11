@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Admins)]
 [ApiController, Route(ApiRoutes.Admin), Authorize(Roles = SystemRoles.Admin)]
 public class AdminController(
     ICrudService<Admin, CreateRequest, UpdateRequest, ResponseDto> service) : ControllerBase
@@ -126,3 +125,4 @@ public class AdminController(
         return NoContent();
     }
 }
+

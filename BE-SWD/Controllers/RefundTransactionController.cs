@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoRobot.Controllers;
 
-[SwaggerGroup(SwaggerGroups.Refunds)]
 [ApiController, Route(ApiRoutes.Refunds), Authorize(Roles = SystemRoles.Admin)]
 public class RefundTransactionController(
     ICrudService<RefundTransaction, CreateRequest, UpdateRequest, ResponseDto> service,
@@ -124,3 +123,4 @@ public class RefundTransactionController(
         return NoContent();
     }
 }
+

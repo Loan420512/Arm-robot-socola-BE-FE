@@ -29,10 +29,6 @@ public sealed class SwaggerOperationDocumentation : IOperationFilter
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        var group = context.MethodInfo.DeclaringType?.GetCustomAttribute<SwaggerGroupAttribute>()
-            ?? throw new InvalidOperationException("Every API controller must declare a Swagger documentation group.");
-        operation.Tags = new List<OpenApiTag> { new() { Name = group.Name } };
-
         // XML comments là nguồn mô tả; không tạo API giả để bổ sung tài liệu.
         if (string.IsNullOrWhiteSpace(operation.Summary) || string.IsNullOrWhiteSpace(operation.Description))
         {
@@ -56,6 +52,8 @@ public sealed class SwaggerOperationDocumentation : IOperationFilter
         if (context.MethodInfo.IsDefined(typeof(AllowAnonymousAttribute), true))
         {
             operation.Security = new List<OpenApiSecurityRequirement>();
+            operation.Responses.Remove("401");
+            operation.Responses.Remove("403");
             return;
         }
 
@@ -75,3 +73,5 @@ public sealed class SwaggerOperationDocumentation : IOperationFilter
         };
     }
 }
+
+

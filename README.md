@@ -98,7 +98,8 @@ Chỉ login được phép anonymous. Tất cả API khác yêu cầu JWT với 
 |---|---|
 | Auth | POST `/api/auth/login`, GET `/api/auth/me`, POST `/api/auth/change-password` |
 | Admin | GET, POST `/api/admin`; GET, PUT, DELETE `/api/admin/{id}` |
-| Customer | GET, POST `/api/customers`; GET, PUT, DELETE `/api/customers/{id}` |
+| Customer (public) | POST `/api/customers` — fullName, phone, email; no JWT; returns customerId only |
+| Customer (Admin JWT) | GET, POST `/api/admin/customers`; GET, PUT, DELETE `/api/admin/customers/{id}` |
 | Staff | GET, POST `/api/staff`; GET, PUT, DELETE `/api/staff/{id}`; PATCH `/api/staff/{id}/status` |
 | PlateType | GET, POST `/api/plate-types`; GET, PUT, DELETE `/api/plate-types/{id}` |
 | PlateColor | GET, POST `/api/plate-colors`; GET, PUT, DELETE `/api/plate-colors/{id}`; PATCH `/api/plate-colors/{id}/status` |
@@ -144,3 +145,6 @@ Kết quả mới nhất được lưu trong `TEST-RESULTS.txt`, gồm state mac
 `dotnet restore` API và `dotnet build` API đã thành công. Build API gần nhất không warning/error. Restore test có cảnh báo NU1900 vì môi trường không truy cập được nguồn dữ liệu kiểm tra lỗ hổng NuGet; chưa hoàn tất kiểm tra vulnerability của package.
 
 Chưa kiểm chứng: scaffold/schema thật, login Admin thật, seed vào database, CRUD đọc/ghi SQL, giao dịch đồng thời/rollback thực tế, dữ liệu dashboard và audit, constraint hiện có, HTTPS. Cần ChocoRobotDB đúng schema và chứng chỉ local để hoàn tất các bước này. Không có database nào bị tạo, xóa hoặc đổi schema trong phiên triển khai.
+
+Public contact submission does not verify identity, email or phone ownership. customerId is an order reference, never proof of ownership. CustomerRegistration settings control per-IP/global rate limits and duplicate cooldown. Limits and the bounded hashed-contact cooldown cache are per backend process; deployments with multiple instances should enforce a shared limit at the gateway. Do not trust client-supplied forwarding headers; configure trusted proxies explicitly if deployed behind one. SQL Server supplies CUSTOMER.id and created_at; no schema changes or migrations are performed.
+
