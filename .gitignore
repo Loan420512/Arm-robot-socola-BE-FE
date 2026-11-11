@@ -4,3 +4,11 @@ obj/
 *.user
 appsettings.json
 appsettings.Development.json
+node_modules/
+dist/
+.DS_Store
+.expo/
+ios/
+android/
+
+.claude/
