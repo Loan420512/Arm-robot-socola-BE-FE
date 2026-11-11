@@ -1,0 +1,63 @@
+import { StyleSheet } from 'react-native';
+
+export const colors = {
+  page: '#e4e7e1',
+  panel: '#f4f5f1',
+  card: '#ffffff',
+  ink: '#18241e',
+  ink2: '#3d4d46',
+  ink3: '#697570',
+  moss: '#52724a',
+  mossSoft: 'rgba(82, 114, 74, 0.14)',
+  line: 'rgba(24, 36, 30, 0.14)',
+  error: '#9a3b2f',
+};
+
+export const styles = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: colors.page },
+  pad: { paddingHorizontal: 16, paddingBottom: 28 },
+  title: { fontSize: 32, color: colors.ink, marginBottom: 8 },
+  body: { fontSize: 16, lineHeight: 22, color: colors.ink2, marginBottom: 16 },
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.line,
+    padding: 14,
+    marginBottom: 10,
+  },
+  cardOn: { borderColor: colors.moss, backgroundColor: colors.mossSoft },
+  cardTitle: { fontSize: 17, color: colors.ink, fontWeight: '600' },
+  meta: { fontSize: 14, color: colors.ink3, marginTop: 4 },
+  row: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  button: {
+    backgroundColor: colors.ink,
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  buttonText: { color: '#eef0eb', fontSize: 16, fontWeight: '600' },
+  ghost: {
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  ghostText: { color: colors.ink, fontSize: 14, fontWeight: '600' },
+  input: {
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: colors.ink,
+    marginBottom: 10,
+  },
+  error: { color: colors.error, marginBottom: 8 },
+  stage: { height: 420, borderRadius: 16, overflow: 'hidden', backgroundColor: '#d7dbd4' },
+});
