@@ -1,0 +1,128 @@
+ M StickerKiosk/.gitignore
+ M StickerKiosk/README.md
+ D StickerKiosk/docs/rationale.md
+ M StickerKiosk/index.html
+ M StickerKiosk/package-lock.json
+ M StickerKiosk/package.json
+ M StickerKiosk/public/favicon.svg
+ D StickerKiosk/public/icons.svg
+ D StickerKiosk/src/api/admin.ts
+ D StickerKiosk/src/api/catalog.ts
+ D StickerKiosk/src/api/http.ts
+ D StickerKiosk/src/api/index.ts
+ D StickerKiosk/src/api/order.ts
+ D StickerKiosk/src/api/wire.ts
+ D StickerKiosk/src/app/SiteLayout.tsx
+ D StickerKiosk/src/app/copy.ts
+ D StickerKiosk/src/app/glyph.tsx
+ D StickerKiosk/src/app/paths.ts
+ D StickerKiosk/src/app/routes.tsx
+ D StickerKiosk/src/app/stageView.ts
+ D StickerKiosk/src/app/theme.css
+ D StickerKiosk/src/kiosk/catalog.ts
+ D StickerKiosk/src/kiosk/checkout.ts
+ D StickerKiosk/src/kiosk/index.ts
+ D StickerKiosk/src/kiosk/kiosk.ts
+ D StickerKiosk/src/kiosk/port.ts
+ D StickerKiosk/src/kiosk/react.tsx
+ D StickerKiosk/src/kiosk/session.test.ts
+ D StickerKiosk/src/kiosk/session.ts
+ D StickerKiosk/src/kiosk/sheet.test.ts
+ D StickerKiosk/src/kiosk/sheet.ts
+ M StickerKiosk/src/main.tsx
+ D StickerKiosk/src/pages/CheckoutPage.tsx
+ D StickerKiosk/src/pages/HomePage.tsx
+ D StickerKiosk/src/pages/NotFoundPage.tsx
+ D StickerKiosk/src/pages/OrderPage.tsx
+ D StickerKiosk/src/pages/StickersPage.tsx
+ D StickerKiosk/src/pages/StudioPage.tsx
+ D StickerKiosk/src/pages/admin/AdminCases.tsx
+ D StickerKiosk/src/pages/admin/AdminLayout.tsx
+ D StickerKiosk/src/pages/admin/AdminLogin.tsx
+ D StickerKiosk/src/pages/admin/AdminOrders.tsx
+ D StickerKiosk/src/pages/admin/AdminPhones.tsx
+ D StickerKiosk/src/pages/admin/AdminStickers.tsx
+ D StickerKiosk/src/pages/admin/PoseEditor.tsx
+ D StickerKiosk/src/stage/canonical.ts
+ D StickerKiosk/src/stage/fitter.ts
+ D StickerKiosk/src/stage/index.tsx
+ D StickerKiosk/src/stage/product.ts
+ D StickerKiosk/src/stage/viewer.ts
+ M StickerKiosk/vite.config.ts
+?? StickerKiosk/.hallmark/.gitignore
+?? StickerKiosk/.hallmark/log.json
+?? StickerKiosk/.hallmark/preflight.json
+?? StickerKiosk/design.md
+?? StickerKiosk/docs/api-only-integration.md
+?? StickerKiosk/docs/backend-api-verification.md
+?? StickerKiosk/docs/basic-template-cleanup-report.md
+?? StickerKiosk/docs/basic-template-seed-report.md
+?? StickerKiosk/docs/basic-templates-manifest.json
+?? StickerKiosk/docs/customer-login-api-proposal.md
+?? StickerKiosk/docs/database-template-layout.md
+?? StickerKiosk/docs/git-working-tree.txt
+?? StickerKiosk/docs/guest-checkout-api-gap.md
+?? StickerKiosk/docs/original-script-data-import.md
+?? StickerKiosk/docs/payment-verification.md
+?? StickerKiosk/docs/redesign-verification.md
+?? StickerKiosk/docs/session-file-changes.json
+?? StickerKiosk/docs/source-threejs-integration.md
+?? StickerKiosk/docs/studio-3d-verification.md
+?? StickerKiosk/public/catalog/basic/README.md
+?? StickerKiosk/public/catalog/basic/flower-preview.gcode
+?? StickerKiosk/public/catalog/basic/flower.png
+?? StickerKiosk/public/catalog/basic/flower.svg
+?? StickerKiosk/public/catalog/basic/heart-preview.gcode
+?? StickerKiosk/public/catalog/basic/heart.png
+?? StickerKiosk/public/catalog/basic/heart.svg
+?? StickerKiosk/public/catalog/basic/spiral-preview.gcode
+?? StickerKiosk/public/catalog/basic/spiral.png
+?? StickerKiosk/public/catalog/basic/spiral.svg
+?? StickerKiosk/public/catalog/basic/waves-preview.gcode
+?? StickerKiosk/public/catalog/basic/waves.png
+?? StickerKiosk/public/catalog/basic/waves.svg
+?? StickerKiosk/public/models/choco/README.md
+?? StickerKiosk/public/models/choco/dish.glb
+?? StickerKiosk/public/models/choco/kuma_heavy_robot_r-9000s.glb
+?? StickerKiosk/scripts/generate-basic-template-assets.mjs
+?? StickerKiosk/scripts/remove-added-basic-template-catalog.sql
+?? StickerKiosk/scripts/seed-basic-template-catalog.sql
+?? StickerKiosk/src/choco/CatalogPage.tsx
+?? StickerKiosk/src/choco/ChocoApp.tsx
+?? StickerKiosk/src/choco/DashboardPage.tsx
+?? StickerKiosk/src/choco/PlateArt.tsx
+?? StickerKiosk/src/choco/PublicHome.tsx
+?? StickerKiosk/src/choco/ResourcePage.tsx
+?? StickerKiosk/src/choco/TemplatesPage.tsx
+?? StickerKiosk/src/choco/api.test.ts
+?? StickerKiosk/src/choco/api.ts
+?? StickerKiosk/src/choco/auth.tsx
+?? StickerKiosk/src/choco/base.css
+?? StickerKiosk/src/choco/format.ts
+?? StickerKiosk/src/choco/public.css
+?? StickerKiosk/src/choco/resources.test.ts
+?? StickerKiosk/src/choco/resources.ts
+?? StickerKiosk/src/choco/studio/CheckoutPage.tsx
+?? StickerKiosk/src/choco/studio/CheckoutPayment.tsx
+?? StickerKiosk/src/choco/studio/PlateScene.tsx
+?? StickerKiosk/src/choco/studio/RequestPage.tsx
+?? StickerKiosk/src/choco/studio/RequestPanel.tsx
+?? StickerKiosk/src/choco/studio/StudioHeader.tsx
+?? StickerKiosk/src/choco/studio/StudioPage.tsx
+?? StickerKiosk/src/choco/studio/TemplateArtwork.tsx
+?? StickerKiosk/src/choco/studio/catalog.test.ts
+?? StickerKiosk/src/choco/studio/catalog.ts
+?? StickerKiosk/src/choco/studio/design.test.ts
+?? StickerKiosk/src/choco/studio/design.ts
+?? StickerKiosk/src/choco/studio/scene.ts
+?? StickerKiosk/src/choco/studio/sourceMachine.test.ts
+?? StickerKiosk/src/choco/studio/sourceMachine.ts
+?? StickerKiosk/src/choco/studio/sourceMotion.test.ts
+?? StickerKiosk/src/choco/studio/sourceMotion.ts
+?? StickerKiosk/src/choco/studio/studio.css
+?? StickerKiosk/src/choco/studio/templateLayout.test.ts
+?? StickerKiosk/src/choco/studio/templateLayout.ts
+?? StickerKiosk/src/choco/studio/vendor/threejs/README.md
+?? StickerKiosk/src/choco/studio/vendor/threejs/createDispenserToolhead.original.txt
+?? StickerKiosk/src/choco/styles.css
+?? StickerKiosk/src/choco/tokens.css

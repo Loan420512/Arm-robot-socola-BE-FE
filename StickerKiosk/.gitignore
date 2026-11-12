@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local design captures, browser sessions and build verification output
+.hallmark/before/
+.hallmark/before.json
+.hallmark/before.txt
+.hallmark/sweeps/
+.playwright-cli/
+output/

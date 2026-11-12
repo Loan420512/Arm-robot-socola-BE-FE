@@ -10,6 +10,6 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
-    proxy: { '/api': 'http://localhost:5174', '/uploads': 'http://localhost:5174' },
+    proxy: { '/api': process.env.CHOCO_API_URL || 'http://127.0.0.1:5143', '/uploads': process.env.CHOCO_API_URL || 'http://127.0.0.1:5143' },
   },
 });

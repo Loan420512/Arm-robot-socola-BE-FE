@@ -1,0 +1,14 @@
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; min-width: 320px; }
+html { scrollbar-color: var(--muted) var(--paper); scroll-padding-top: var(--space-3xl); }
+body { margin: 0; background: var(--surface); color: var(--ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.6; -webkit-font-smoothing: antialiased; font-synthesis: none; text-rendering: optimizeLegibility; caret-color: var(--accent); font-variant-numeric: tabular-nums; }
+::selection { background: var(--accent-soft); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .16em; }
+h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -.025em; line-height: 1.35; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+h1 { font-size: var(--text-display); } h2 { font-size: var(--text-section); } h3 { font-size: var(--text-title); }
+p { margin: 0; text-wrap: pretty; }
+img, video { max-width: 100%; height: auto; display: block; }
+[hidden] { display: none !important; }
+button, input, select, textarea { font: inherit; }
+.num, .figure, td.num { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,304 @@
+{
+  "date": "2026-11-12",
+  "branch": "fe",
+  "head": "96f13fb5f6fe1b631fbe4f7c268b97e938cc5e36",
+  "baselineSnapshot": "C:/Users/thong/AppData/Local/Temp/chocorobot-fe-baseline-20261112-000301",
+  "changedExistingChocoFiles": [
+    "src/choco/api.test.ts",
+    "src/choco/api.ts",
+    "src/choco/CatalogPage.tsx",
+    "src/choco/ChocoApp.tsx",
+    "src/choco/DashboardPage.tsx",
+    "src/choco/PublicHome.tsx",
+    "src/choco/ResourcePage.tsx",
+    "src/choco/resources.test.ts",
+    "src/choco/resources.ts",
+    "src/choco/styles.css",
+    "src/choco/TemplatesPage.tsx"
+  ],
+  "createdChocoFiles": [
+    "src/choco/base.css",
+    "src/choco/tokens.css"
+  ],
+  "otherSessionFiles": [
+    ".gitignore",
+    "README.md",
+    "design.md",
+    ".hallmark/.gitignore",
+    ".hallmark/preflight.json",
+    ".hallmark/log.json",
+    "docs/backend-api-verification.md",
+    "docs/redesign-verification.md",
+    "docs/session-file-changes.json",
+    "docs/git-working-tree.txt"
+  ],
+  "initialDeletedFiles": 43,
+  "currentDeletedFiles": 43,
+  "newDeletedFiles": [],
+  "backendChangedFiles": [],
+  "followupPublicHomepage": {
+    "changed": [
+      "src/choco/ChocoApp.tsx",
+      "src/choco/PublicHome.tsx",
+      "README.md",
+      "design.md",
+      "docs/redesign-verification.md"
+    ],
+    "created": [
+      "src/choco/public.css"
+    ],
+    "publicRoute": "/",
+    "protectedDashboard": "/quan-tri",
+    "customerAuthentication": "No Customer login contract in read-only BE"
+  },
+  "studio3dFollowup": {
+    "currentFlow": "public home -> /trai-nghiem -> /thanh-toan-mau, no Customer login",
+    "databaseConfirmedByUser": "ChocoRobotDB at Docker127.0.0.1:1433",
+    "sourceModels": "C:/Users/thong/Downloads/Threejs/public/models",
+    "modelHashes": [
+      {
+        "name": "dish.glb",
+        "source": "bfb3cb09c54427dfdedf74ae427e8b1b10794d50815336b1cfd5395e868e1595",
+        "copied": "bfb3cb09c54427dfdedf74ae427e8b1b10794d50815336b1cfd5395e868e1595",
+        "identical": true
+      },
+      {
+        "name": "kuma_heavy_robot_r-9000s.glb",
+        "source": "039fcb821152658bf9102e2cb60fabfef2fe7ef155f24e416d4db2a61c18120c",
+        "copied": "039fcb821152658bf9102e2cb60fabfef2fe7ef155f24e416d4db2a61c18120c",
+        "identical": true
+      }
+    ],
+    "files": [
+      "src/choco/studio/CheckoutPage.tsx",
+      "src/choco/studio/design.test.ts",
+      "src/choco/studio/design.ts",
+      "src/choco/studio/PlateScene.tsx",
+      "src/choco/studio/RequestPage.tsx",
+      "src/choco/studio/RequestPanel.tsx",
+      "src/choco/studio/scene.ts",
+      "src/choco/studio/studio.css",
+      "src/choco/studio/StudioHeader.tsx",
+      "src/choco/studio/StudioPage.tsx"
+    ],
+    "otherChanges": [
+      "src/choco/ChocoApp.tsx",
+      "src/choco/PublicHome.tsx",
+      "package.json",
+      "package-lock.json",
+      "README.md",
+      "design.md",
+      "docs/studio-3d-verification.md",
+      "docs/guest-checkout-api-gap.md",
+      "public/models/choco/README.md"
+    ],
+    "backendModified": false,
+    "committedOrPushed": false
+  },
+  "apiOnlyFollowup": {
+    "date": "2026-11-12",
+    "files": [
+      "src/choco/api.ts",
+      "src/choco/api.test.ts",
+      "src/choco/PublicHome.tsx",
+      "src/choco/public.css",
+      "src/choco/CatalogPage.tsx",
+      "src/choco/ResourcePage.tsx",
+      "src/choco/studio/catalog.ts",
+      "src/choco/studio/catalog.test.ts",
+      "src/choco/studio/design.ts",
+      "src/choco/studio/design.test.ts",
+      "src/choco/studio/StudioPage.tsx",
+      "src/choco/studio/CheckoutPage.tsx",
+      "src/choco/studio/RequestPage.tsx",
+      "src/choco/studio/scene.ts",
+      "src/choco/studio/PlateScene.tsx",
+      "src/choco/studio/studio.css",
+      "docs/api-only-integration.md",
+      "README.md",
+      "design.md"
+    ],
+    "source": "Actual BE catalogGETs only, no runtime replacementdata",
+    "blockers": [
+      "Guest GET catalog401",
+      "Catalog DB records0",
+      "No endpoint for chocolateoptions/robotpath/modelmetadata/guestorderpayment"
+    ],
+    "backendModified": false,
+    "tests": "75/75 pass"
+  },
+  "authorizedPublicCatalogBackend": {
+    "approvedByUser": true,
+    "scope": "Only4GET collectionactions public",
+    "backendCheckout": "C:/Users/thong/.codex/worktrees/run-chocorobot-be/SWD-BE",
+    "branch": "BE",
+    "changedFiles": [
+      "BE-SWD/Controllers/ChocoTemplateController.cs",
+      "BE-SWD/Controllers/PlatesController.cs",
+      "BE-SWD/Controllers/PlateTypeController.cs",
+      "BE-SWD/Controllers/PlateColorController.cs",
+      "BE-SWD.Tests/Program.cs"
+    ],
+    "tests": "Build0err0warn;551isolatedchecksPASS",
+    "liveHTTP": "4GET200 direct/proxy, protectedoperationsremainauthorized",
+    "databaseModified": false,
+    "configModified": false,
+    "committedOrPushed": false
+  },
+  "basicTemplateDataSeed": {
+    "approvedByUser": true,
+    "database": "ChocoRobotDB at127.0.0.1:1433 Dockerchocorobot-sql",
+    "method": "SQL insert-only transaction; application reads real API",
+    "created": {
+      "templates": 4,
+      "referencePlateTypes": 1,
+      "referenceAuthors": 1
+    },
+    "templateIds": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "referencePlateTypeId": 2,
+    "referenceStaffId": 1,
+    "productsPricesOrStockCreated": false,
+    "schemaOrAuthenticationModified": false,
+    "files": [
+      "scripts/seed-basic-template-catalog.sql",
+      "scripts/generate-basic-template-assets.mjs",
+      "public/catalog/basic/",
+      "docs/basic-templates-manifest.json",
+      "docs/basic-template-seed-report.md",
+      "src/choco/studio/gcode.ts",
+      "src/choco/studio/gcode.test.ts",
+      "src/choco/studio/StudioPage.tsx"
+    ],
+    "verification": "4templates actualAPI200;119testsPASS;all4simulationPlaywrightpass;0consoleerrors",
+    "committedOrPushed": false
+  },
+  "originalSourceMachineFollowup": {
+    "request": "Use the actual machine from supplied Threejs, not a new machine",
+    "source": "C:/Users/thong/Downloads/Threejs/src/main.js:createDispenserToolhead",
+    "originalFunctionSha256": "d04fc219d0cf7e680aded7d95fa550283c6fa1ecba253e3bff6606626cdd8b5d",
+    "sourceMainUnchangedSha256": "6b4ed2ca095cc9b95ef512204791a9696bbda412801b2f72f17674e63c5fa15a",
+    "runtime": "Exact source factory, original motion phases; removed KUMA loading/synthetic nozzle/CCD/connector",
+    "files": [
+      "src/choco/studio/sourceMachine.ts",
+      "src/choco/studio/sourceMachine.test.ts",
+      "src/choco/studio/sourceMotion.ts",
+      "src/choco/studio/sourceMotion.test.ts",
+      "src/choco/studio/vendor/threejs/README.md",
+      "src/choco/studio/vendor/threejs/createDispenserToolhead.original.txt",
+      "src/choco/studio/scene.ts",
+      "src/choco/studio/PlateScene.tsx",
+      "src/choco/studio/StudioPage.tsx",
+      "docs/source-threejs-integration.md",
+      "README.md",
+      "public/models/choco/README.md"
+    ],
+    "checks": "20meshes+18directchildren exactparity;130tests/build/lintpass;desktop+mobilePlaywrightpass",
+    "backendOrDatabaseChanged": false,
+    "committedOrPushed": false
+  },
+  "removeAddedBasicTemplates": {
+    "approvedByUser": true,
+    "removed": {
+      "templateIds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "referencePlateTypeIds": [
+        2
+      ],
+      "referenceAuthorIds": [
+        1
+      ]
+    },
+    "backup": "output/backups/ChocoRobotDB-before-basic-template-removal-20261112-155952.bak",
+    "backupSHA256": "7A902A722129E3FFBB0FF56E3E8C7ABF93EE926FC13C345782C445441AC72946",
+    "backupVerified": true,
+    "remaining": {
+      "templates": 0,
+      "plates": 0,
+      "plateTypes": 0,
+      "staff": 0,
+      "admin": 1
+    },
+    "originalDatabaseLocated": false,
+    "waitingFor": "Original SQLServer address or backup path",
+    "backendConfigOrSourceChanged": false,
+    "committedOrPushed": false
+  },
+  "originalScriptDataImport": {
+    "approvedByUser": true,
+    "source": "C:/Users/thong/Downloads/script.sql",
+    "sourceSha256": "621bebfd001c3a0684767e324700a1c7467fe501ee96a24941f7f62847a70bf9",
+    "database": "ChocoRobotDB Docker127.0.0.1:1433",
+    "rows": {
+      "PLATE_TYPE": 1,
+      "PLATE_COLOR": 10,
+      "STAFF": 1,
+      "CUSTOMER": 2,
+      "PLATE": 1,
+      "CHOCO_TEMPLATE": 1,
+      "TEMPLATE_ELEMENT": 1,
+      "ORDER": 1
+    },
+    "retainedAdminId": 1,
+    "sourceAdminId": 2,
+    "staffAdminReferenceMapped": true,
+    "credentialsReplaced": false,
+    "schemaOrBackendSourceModified": false,
+    "backup": "output/backups/ChocoRobotDB-before-original-script-import-20261112-160600.bak",
+    "mediaLimitations": [
+      "sourceimageURLnotloadableasimage",
+      "sourcegcodeURLPNG404"
+    ],
+    "report": "docs/original-script-data-import.md",
+    "committedOrPushed": false
+  },
+  "databaseLayoutNoGcode": {
+    "approvedByUser": true,
+    "source": "CHOCO_TEMPLATE+TEMPLATE_ELEMENT from provided script.sql",
+    "legacyAttachmentUsed": false,
+    "deletedFeatureFiles": [
+      "src/choco/studio/gcode.ts",
+      "src/choco/studio/gcode.test.ts"
+    ],
+    "addedFiles": [
+      "src/choco/studio/templateLayout.ts",
+      "src/choco/studio/templateLayout.test.ts",
+      "src/choco/studio/TemplateArtwork.tsx",
+      "docs/database-template-layout.md"
+    ],
+    "backendAdditionalFiles": [
+      "BE-SWD/Controllers/TemplateElementController.cs",
+      "BE-SWD.Tests/Program.cs"
+    ],
+    "newPublicRead": "GET/api/template-elements/by-template/{id}",
+    "schemaOrDataChanged": false,
+    "tests": "98FEpass;553isolatedBEchecksPASS;PlaywrightdatabaseHappyBirthdaynoGcoderequests",
+    "committedOrPushed": false
+  },
+  "paymentVerificationFollowup": {
+    "date": "2026-11-12",
+    "changes": [
+      "src/choco/studio/CheckoutPayment.tsx",
+      "src/choco/studio/CheckoutPage.tsx",
+      "src/choco/studio/studio.css",
+      "src/choco/studio/RequestPanel.tsx",
+      "src/choco/resources.ts",
+      "src/choco/resources.test.ts",
+      "docs/payment-verification.md"
+    ],
+    "status": "Checkout payment information added; actual payments remain Admin cash only; guest order/payment backend unavailable",
+    "verification": "104FEtests/build/lintPASS;553isolatedBEchecksPASS;Playwrightprice/cashierguard/mobilePASS",
+    "livePaymentCreated": false,
+    "backendModified": false,
+    "dataModified": false,
+    "committedOrPushed": false
+  }
+}

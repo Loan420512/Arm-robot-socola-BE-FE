@@ -1,0 +1,24 @@
+:root {
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: .75rem; --text-sm: .875rem; --text-md: 1rem; --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem; --text-3xl: 2.074rem;
+  --text-display: var(--text-2xl); --text-section: var(--text-lg); --text-title: var(--text-md);
+  --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif; --font-display: var(--font-body);
+  --color-paper: #fffefa; --color-paper-2: #f7f5ef; --color-paper-3: #efe9de;
+  --color-ink: #342b26; --color-ink-2: #51443b; --color-muted: #70645a;
+  --color-rule: #e2dcd1; --color-accent: #a74b31; --color-accent-ink: #fffefa; --color-focus: #a74b31;
+  --color-error: #a23c36; --color-success: #3e6552;
+  --ink: var(--color-ink); --muted: var(--color-muted); --paper: var(--color-paper); --surface: var(--color-paper-2); --line: var(--color-rule);
+  --cocoa: #38241e; --cocoa-deep: #291a16; --cream: #f1ece2;
+  --accent: var(--color-accent); --accent-hover: #8d3c27; --accent-soft: #f7e7df;
+  --sage: var(--color-success); --sage-soft: #e9f1e9; --gold: #796020; --gold-soft: #f7efdc;
+  --danger: var(--color-error); --danger-hover: #872d29; --danger-soft: #f9e9e5; --danger-line: #d7aaa4;
+  --focus: var(--color-focus); --field-line: #97877b; --product-well: #ece7dc; --avatar-bg: #e6d6c5;
+  --sidebar-ink: #fbf3e8; --sidebar-muted: #cfb9a9; --sidebar-rule: #634a3e; --sidebar-active: #f1e5d3; --sidebar-active-ink: #38241e; --sidebar-hover: #543b30;
+  --skeleton: #e8e1d5; --overlay: #21120ecc;
+  --art-plate: #eee4d2; --art-line: #d4c7ae; --art-shadow: #1c0c0860; --art-chocolate: #5b2f20; --art-highlight: #fffdf2;
+  --ease-out: cubic-bezier(.16,1,.3,1); --ease-in: cubic-bezier(.7,0,.84,0); --ease-in-out: cubic-bezier(.65,0,.35,1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --radius-control: 6px; --radius-card: 10px; --radius-dialog: 12px;
+  --sidebar-width: 276px; --container: 1440px; --gutter: 40px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+}

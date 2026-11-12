@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "generatedBy": "scripts/generate-basic-template-assets.mjs",
+  "purpose": "Original assets for persisted database catalog records served through the API. Not an application fallback or mock API.",
+  "previewOnly": true,
+  "templates": [
+    {
+      "name": "Trái tim cơ bản",
+      "slug": "heart",
+      "description": "Một đường chocolate khép kín tạo hình trái tim.",
+      "imagePath": "/catalog/basic/heart.png",
+      "svgPath": "/catalog/basic/heart.svg",
+      "gcodePath": "/catalog/basic/heart-preview.gcode",
+      "pointCount": 201,
+      "strokeCount": 1,
+      "image": {
+        "width": 600,
+        "height": 600,
+        "transparent": true
+      },
+      "geometry": {
+        "units": "mm",
+        "referencePlateDiameter": 200,
+        "center": {
+          "x": 100,
+          "y": 100
+        },
+        "maximumRadius": 80,
+        "previewOnly": true
+      }
+    },
+    {
+      "name": "Bông hoa năm cánh",
+      "slug": "flower",
+      "description": "Bông hoa năm cánh cùng vòng nhụy nhỏ ở giữa.",
+      "imagePath": "/catalog/basic/flower.png",
+      "svgPath": "/catalog/basic/flower.svg",
+      "gcodePath": "/catalog/basic/flower-preview.gcode",
+      "pointCount": 306,
+      "strokeCount": 2,
+      "image": {
+        "width": 600,
+        "height": 600,
+        "transparent": true
+      },
+      "geometry": {
+        "units": "mm",
+        "referencePlateDiameter": 200,
+        "center": {
+          "x": 100,
+          "y": 100
+        },
+        "maximumRadius": 80,
+        "previewOnly": true
+      }
+    },
+    {
+      "name": "Xoắn ốc chocolate",
+      "slug": "spiral",
+      "description": "Nét chocolate xoắn ba vòng từ tâm dĩa ra ngoài.",
+      "imagePath": "/catalog/basic/spiral.png",
+      "svgPath": "/catalog/basic/spiral.svg",
+      "gcodePath": "/catalog/basic/spiral-preview.gcode",
+      "pointCount": 301,
+      "strokeCount": 1,
+      "image": {
+        "width": 600,
+        "height": 600,
+        "transparent": true
+      },
+      "geometry": {
+        "units": "mm",
+        "referencePlateDiameter": 200,
+        "center": {
+          "x": 100,
+          "y": 100
+        },
+        "maximumRadius": 80,
+        "previewOnly": true
+      }
+    },
+    {
+      "name": "Ba đường sóng",
+      "slug": "waves",
+      "description": "Ba nét sóng song song, bố cục nhẹ ở giữa dĩa.",
+      "imagePath": "/catalog/basic/waves.png",
+      "svgPath": "/catalog/basic/waves.svg",
+      "gcodePath": "/catalog/basic/waves-preview.gcode",
+      "pointCount": 423,
+      "strokeCount": 3,
+      "image": {
+        "width": 600,
+        "height": 600,
+        "transparent": true
+      },
+      "geometry": {
+        "units": "mm",
+        "referencePlateDiameter": 200,
+        "center": {
+          "x": 100,
+          "y": 100
+        },
+        "maximumRadius": 80,
+        "previewOnly": true
+      }
+    }
+  ],
+  "databaseSeedStatus": "Removed at user request; retained as asset documentation/test fixtures, not runtime catalog fallback"
+}

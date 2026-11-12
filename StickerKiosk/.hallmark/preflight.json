@@ -1,0 +1,27 @@
+{
+  "scanned": "2026-11-12",
+  "findings": {
+    "fonts": "Be Vietnam Pro, src/choco/styles.css:1",
+    "palette": "Cacao, cream and terracotta brand tokens, src/choco/styles.css:6",
+    "framework": "React 19 / TypeScript / React Router 7 / Vite 8, package.json:1",
+    "state": "Auth context + sessionStorage; cancellable useQuery, src/choco/auth.tsx:1 and api.ts:1",
+    "routes": "ChocoApp.tsx: workspace, login, account, resource management, catalog and templates",
+    "before": "Existing uncommitted implementation captured outside repository before changes; no source files deleted in this session"
+  },
+  "preserve": [
+    "ChocoRobot branding",
+    "Be Vietnam Pro",
+    "All current routes and business handlers",
+    "All existing uncommitted changes"
+  ],
+  "introduce": [
+    "Brand tokens/base stylesheet",
+    "Data-first operational layout",
+    "Public customer contact registration using existing contract",
+    "URL table state and detail deep links",
+    "Error/loading states without invented data"
+  ],
+  "scope": "app",
+  "theme": "brand",
+  "redesign": "full"
+}

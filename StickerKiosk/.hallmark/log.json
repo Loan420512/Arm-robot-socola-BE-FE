@@ -1,0 +1,82 @@
+[
+ {
+  "date": "2026-11-12",
+  "mode": "build",
+  "scope": "app",
+  "theme": "brand",
+  "genre": "modern-minimal",
+  "prompt": "Public chocolate plate3D studio using supplied robot and plate; guest checkout collects contact without login; preserve read-only Backend",
+  "signature": "Live3D chocolate extrusion and articulated robot",
+  "nav": "Public studio header",
+  "states": [
+   "loading",
+   "error",
+   "ready",
+   "empty",
+   "contact success"
+  ],
+  "axes": "cream/Be Vietnam Pro/terracotta",
+  "material": "User-supplied GLBs; local geometric design inputs, not API catalog data",
+  "routes": [
+   "/trai-nghiem",
+   "/thanh-toan-mau"
+  ],
+  "verification": "Build/lint pass51tests; Playwright public design, pause, drawing, draft retention, guestcheckout and responsive320/390/1440; noBEchanges",
+  "limitations": [
+   "BEpublicendpointcontactonly",
+   "No actual robotexecution or online payment",
+   "RobotmodelCCBYNC4.0"
+  ]
+ },
+ {
+  "date": "2026-11-12",
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "page",
+  "theme": "brand",
+  "genre": "editorial",
+  "prompt": "Public homepage first; request authentication only for protected functions; keep Backend unchanged",
+  "shape": "Product story",
+  "axes": "cream/Be Vietnam Pro/terracotta",
+  "hero": "Chocolate plate illustration",
+  "nav": "Public masthead and section anchors",
+  "footer": "Brand links and separate workshop administration",
+  "imagery": "Existing PlateArt clearly labelled illustration",
+  "entry": "Public home at /",
+  "fingerprint": "public-masthead/product-plate/inspiration/process/faq/contact",
+  "sections": [
+   "hero",
+   "inspiration",
+   "process",
+   "FAQ",
+   "contact",
+   "footer"
+  ],
+  "signature": "Chocolate plate",
+  "verification": "Guest home no API calls; responsive390/768/1440;0FAIL0WARN render;38tests/build/lint pass",
+  "waivers": [
+   "80: supplied PlateArt retained as illustration"
+  ]
+ },
+ {
+  "date": "2026-11-12",
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "app",
+  "genre": "modern-minimal",
+  "theme": "brand",
+  "prompt": "Redesign ChocoRobot frontend with live BE API, preserving all business workflows and read-only BE",
+  "signature": "Live order ledger",
+  "nav": "Cacao sidebar, current route breadcrumb, mobile drawer",
+  "axes": "cream/Be Vietnam Pro/terracotta",
+  "imagery": "Existing product visualization only in plate catalog; real API images in templates",
+  "states": [
+   "loading",
+   "empty",
+   "error",
+   "success",
+   "full"
+  ],
+  "verification": "8 active files, 2 auth routes rendered; 0 FAIL, 1 WARN, 3 ANSWERED; authenticated visual QA blocked by missing Admin credentials"
+ }
+]
