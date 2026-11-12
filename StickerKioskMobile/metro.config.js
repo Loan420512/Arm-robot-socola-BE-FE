@@ -1,7 +1,3 @@
-const path = require('path');
 const { getDefaultConfig } = require('expo/metro-config');
 
-const config = getDefaultConfig(__dirname);
-config.watchFolders = [path.resolve(__dirname, '../StickerKiosk/src')];
-
-module.exports = config;
+module.exports = getDefaultConfig(__dirname);

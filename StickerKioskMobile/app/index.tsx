@@ -1,48 +1,75 @@
-import { Image } from 'expo-image';
-import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, ScrollView, Text, TextInput } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Pressable, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { resolve, useSession } from '../src/kiosk-context';
-import { assetUrl } from '../src/api-origin';
-import { colors, styles } from '../src/theme';
+import { activeTemplates, money, useCatalog, type CatalogState } from '../src/catalog';
+import { useSelection } from '../src/selection';
+import { styles } from '../src/theme';
+
+const steps = [
+  'Chọn mẫu chocolate đang được xưởng dùng.',
+  'Chọn dĩa còn hàng, cùng loại với mẫu.',
+  'Mỗi lần tạo mã PayOS là một hóa đơn và một mã thanh toán riêng.',
+];
+
+function CatalogNote({ state, onRetry }: { state: CatalogState; onRetry: () => void }) {
+  switch (state.status) {
+    case 'loading':
+      return <Text style={styles.meta}>Đang tải thư viện mẫu…</Text>;
+    case 'error':
+      return (
+        <>
+          <Text style={styles.error}>{state.message}</Text>
+          <Pressable style={styles.ghost} onPress={onRetry}>
+            <Text style={styles.ghostText}>Thử lại</Text>
+          </Pressable>
+        </>
+      );
+    case 'ready':
+      return null;
+    default: {
+      const unexpected: never = state;
+      return unexpected;
+    }
+  }
+}
 
 export default function HomeScreen() {
-  const session = useSession();
   const router = useRouter();
-  const [code, setCode] = useState('');
-  const catalog = session.catalog.status === 'ready' ? session.catalog.catalog : null;
-  const { placements } = resolve(session);
+  const catalog = useCatalog();
+  const { chooseTemplate } = useSelection();
+  const templates = catalog.status === 'ready' ? activeTemplates(catalog.catalog) : [];
 
   return (
     <SafeAreaView style={styles.screen} edges={['bottom']}>
       <ScrollView contentContainerStyle={styles.pad}>
-        <Text style={styles.title}>StikerKiosk</Text>
+        <Text style={styles.eyebrow}>Chocolate plate studio</Text>
+        <Text style={styles.title}>Một món quà rất riêng.</Text>
+        <Text style={styles.body}>Một chiếc dĩa, vài nét chocolate, một lời thương. Thư viện mở cho khách, không cần tài khoản.</Text>
         <Pressable style={styles.button} onPress={() => router.push('/studio')}>
-          <Text style={styles.buttonText}>{placements.length ? `Tiếp tục ${placements.length} sticker` : 'Bắt đầu thiết kế'}</Text>
+          <Text style={styles.buttonText}>Chọn mẫu trên dĩa</Text>
         </Pressable>
-        <Text style={[styles.cardTitle, { marginTop: 28, marginBottom: 10 }]}>Tra cứu đơn</Text>
-        <TextInput style={styles.input} value={code} onChangeText={setCode} autoCapitalize="characters" placeholder="Mã đơn" placeholderTextColor={colors.ink3} />
-        <Pressable style={styles.ghost} onPress={() => code.trim() && router.push(`/order/${code.trim().toUpperCase()}`)}>
-          <Text style={styles.ghostText}>Xem đơn</Text>
+        <Text style={styles.section}>Mẫu của xưởng</Text>
+        <CatalogNote state={catalog} onRetry={catalog.reload} />
+        {catalog.status === 'ready' && templates.length === 0 ? <Text style={styles.meta}>Xưởng chưa có mẫu chocolate đang sử dụng.</Text> : null}
+        {templates.map((template) => (
+          <Pressable
+            key={template.id}
+            style={styles.card}
+            onPress={() => {
+              chooseTemplate(template.id);
+              router.push('/studio');
+            }}
+          >
+            <Text style={styles.cardTitle}>{template.templateName?.trim() || `Mẫu #${template.id}`}</Text>
+            <Text style={styles.meta}>Xem dĩa còn hàng cùng loại</Text>
+          </Pressable>
+        ))}
+        <Text style={styles.section}>Cách đặt</Text>
+        {steps.map((step) => <Text key={step} style={styles.body}>{step}</Text>)}
+        <Pressable style={styles.ghost} onPress={() => router.push('/admin/login')}>
+          <Text style={styles.ghostText}>Đăng nhập Admin</Text>
         </Pressable>
-        <Text style={[styles.cardTitle, { marginTop: 28, marginBottom: 10 }]}>Ốp đang bán</Text>
-        {session.catalog.status === 'loading' ? <Text style={styles.meta}>Đang tải danh mục…</Text> : null}
-        {session.catalog.status === 'unreachable' ? <Text style={styles.error}>Không tới được API tại máy này.</Text> : null}
-        {catalog?.models.flatMap((model) => model.cases.filter((item) => item.fit).map((item) => (
-          <Link key={item.id} href="/studio" asChild>
-            <Pressable style={styles.card}>
-              <Text style={styles.cardTitle}>{item.label}</Text>
-              <Text style={styles.meta}>{model.label} · {item.price.toLocaleString('vi-VN')} đ</Text>
-            </Pressable>
-          </Link>
-        )))}
-        {catalog?.stickers[0] ? (
-          <Image source={{ uri: assetUrl(catalog.stickers[0].imageUrl) }} style={{ width: 72, height: 72, borderRadius: 12, marginTop: 8 }} />
-        ) : null}
-        <Link href="/admin/login" style={{ marginTop: 24 }}>
-          <Text style={{ color: colors.moss, fontSize: 16 }}>Khu quản trị</Text>
-        </Link>
+        {catalog.status === 'ready' ? <Text style={styles.meta}>{templates.length} mẫu đang dùng · giá theo dĩa, ví dụ {money(catalog.catalog.plates.find((plate) => typeof plate.price === 'number')?.price)}</Text> : null}
       </ScrollView>
     </SafeAreaView>
   );

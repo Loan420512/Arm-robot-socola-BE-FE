@@ -1,41 +1,64 @@
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, Text } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { adminToken, listOrders, setOrderStatus } from '../../src/admin-api';
-import type { PublicOrder } from '../../../StickerKiosk/src/kiosk/port';
+import { adminToken, clearAdmin, listOrders, type AdminOrder } from '../../src/auth';
+import { money } from '../../src/catalog';
 import { styles } from '../../src/theme';
 
-export default function AdminHomeScreen() {
+const statusLabel: Record<string, string> = {
+  Pending: 'Chờ thanh toán',
+  Processing: 'Đang xử lý',
+  Completed: 'Hoàn tất',
+  Cancelled: 'Đã hủy',
+};
+
+export default function AdminOrdersScreen() {
   const router = useRouter();
-  const [orders, setOrders] = useState<(PublicOrder & { id: number })[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [orders, setOrders] = useState<AdminOrder[]>([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!adminToken()) router.replace('/admin/login');
+    if (!adminToken()) {
+      router.replace('/admin/login');
+      return;
+    }
+    let active = true;
+    void listOrders().then(
+      (rows) => { if (active) { setOrders(rows); setLoading(false); } },
+      (cause: unknown) => {
+        if (!active) return;
+        setError(cause instanceof Error ? cause.message : 'Không tải được đơn.');
+        setLoading(false);
+      },
+    );
+    return () => { active = false; };
   }, [router]);
-
-  useEffect(() => {
-    void listOrders().then((result) => {
-      if (!result.ok) setError(result.message);
-      else setOrders(result.data);
-    });
-  }, []);
 
   return (
     <SafeAreaView style={styles.screen} edges={['bottom']}>
       <ScrollView contentContainerStyle={styles.pad}>
-        <Text style={styles.title}>Quản trị</Text>
-        <Link href="/admin/cases"><Text style={styles.cardTitle}>Ốp lưng và model 3D</Text></Link>
-        <Link href="/admin/phones"><Text style={[styles.cardTitle, { marginTop: 12 }]}>Mẫu máy</Text></Link>
-        <Link href="/admin/stickers"><Text style={[styles.cardTitle, { marginTop: 12, marginBottom: 20 }]}>Sticker</Text></Link>
+        <Text style={styles.body}>Mỗi đơn gắn một dĩa, một mẫu và một số tiền theo giá dĩa lúc tạo hóa đơn.</Text>
+        {loading ? <Text style={styles.meta}>Đang tải đơn…</Text> : null}
         {error ? <Text style={styles.error}>{error}</Text> : null}
+        {!loading && orders.length === 0 && !error ? <Text style={styles.meta}>Chưa có đơn.</Text> : null}
         {orders.map((order) => (
-          <Pressable key={order.orderCode} style={styles.card} onPress={() => void setOrderStatus(order.id, 'Processing')}>
-            <Text style={styles.cardTitle}>{order.orderCode}</Text>
-            <Text style={styles.meta}>{order.status} · {order.stickerName}</Text>
-          </Pressable>
+          <View key={order.id} style={styles.card}>
+            <Text style={styles.cardTitle}>{order.orderCode || `Đơn #${order.id}`}</Text>
+            <Text style={styles.meta}>{order.status ? statusLabel[order.status] ?? order.status : 'Chưa rõ trạng thái'}</Text>
+            <Text style={styles.price}>{money(order.totalAmount)}</Text>
+          </View>
         ))}
+        <Pressable
+          style={styles.ghost}
+          onPress={() => {
+            clearAdmin();
+            router.replace('/');
+          }}
+        >
+          <Text style={styles.ghostText}>Đăng xuất</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );

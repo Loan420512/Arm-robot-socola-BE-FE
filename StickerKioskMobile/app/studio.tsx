@@ -1,104 +1,54 @@
-import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
-import { FlatList, Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { modelsWithCases, type StickerId } from '../../StickerKiosk/src/kiosk/catalog';
-import { assetUrl } from '../src/api-origin';
-import { CaseView } from '../src/case-view';
-import { resolve, useKiosk, useSession } from '../src/kiosk-context';
-import { colors, styles } from '../src/theme';
+import { activeTemplates, money, platesForTemplate, useCatalog } from '../src/catalog';
+import { useSelection } from '../src/selection';
+import { styles } from '../src/theme';
 
 export default function StudioScreen() {
-  const session = useSession();
-  const kiosk = useKiosk();
   const router = useRouter();
-  const { model, offer, placements, gate } = resolve(session);
-  const catalog = session.catalog.status === 'ready' ? session.catalog.catalog : null;
-
-  useEffect(() => {
-    if (!catalog || model?.cases.length) return;
-    const next = modelsWithCases(catalog)[0];
-    if (next) kiosk.dispatch({ type: 'chooseModel', id: next.id });
-  }, [catalog, model, kiosk]);
-  const active = placements.find((item) => item.active) ?? placements.at(-1);
-  const layerIndex = placements.findIndex((item) => item.active);
+  const catalog = useCatalog();
+  const selection = useSelection();
+  const templates = catalog.status === 'ready' ? activeTemplates(catalog.catalog) : [];
+  const template = templates.find((item) => item.id === selection.templateId);
+  const plates = catalog.status === 'ready' ? platesForTemplate(catalog.catalog, template) : [];
+  const plate = plates.find((item) => item.id === selection.plateId);
+  const ready = Boolean(template && plate);
 
   return (
     <SafeAreaView style={styles.screen} edges={['bottom']}>
-      <View style={styles.stage}>
-        {offer?.fit ? (
-          <CaseView
-            caseUrl={assetUrl(offer.fit.modelUrl)}
-            pose={offer.fit.pose}
-            sheetWidthMm={offer.fit.sheet.widthMm}
-            sheetHeightMm={offer.fit.sheet.heightMm}
-            editable
-            placements={placements.map((item) => ({
-              key: item.key,
-              imageUrl: assetUrl(item.product.imageUrl),
-              widthMm: item.product.widthMm,
-              heightMm: item.product.heightMm,
-              at: item.at,
-              rotationDeg: item.rotationDeg,
-              active: item.active,
-            }))}
-            onSelect={(key) => kiosk.dispatch({ type: 'select', key })}
-            onMove={(key, at) => kiosk.dispatch({ type: 'commit', key, at })}
-            onRotate={(key, rotationDeg) => kiosk.dispatch({ type: 'rotateTo', key, rotationDeg })}
-          />
-        ) : (
-          <Text style={[styles.body, { padding: 16 }]}>Ốp này chưa có model 3D.</Text>
-        )}
-      </View>
       <ScrollView contentContainerStyle={styles.pad}>
-        {active ? (
-          <Text style={styles.meta}>
-            Lớp {layerIndex + 1}/{placements.length} · xoay {active.rotationDeg}°
-          </Text>
+        <Text style={styles.body}>Chọn mẫu đang dùng, rồi chọn dĩa còn hàng cùng loại. Giá lấy từ danh mục của xưởng.</Text>
+        {catalog.status === 'loading' ? <Text style={styles.meta}>Đang tải thư viện…</Text> : null}
+        {catalog.status === 'error' ? (
+          <>
+            <Text style={styles.error}>{catalog.message}</Text>
+            <Pressable style={styles.ghost} onPress={catalog.reload}><Text style={styles.ghostText}>Thử lại</Text></Pressable>
+          </>
         ) : null}
-        <View style={[styles.row, { marginVertical: 10 }]}>
-          <Pressable style={styles.ghost} disabled={layerIndex < 0 || layerIndex === placements.length - 1} onPress={() => kiosk.dispatch({ type: 'stack', direction: 'up' })}>
-            <Text style={styles.ghostText}>Lên trên</Text>
+        <Text style={styles.section}>Mẫu</Text>
+        {catalog.status === 'ready' && templates.length === 0 ? <Text style={styles.meta}>Chưa có mẫu đang sử dụng.</Text> : null}
+        {templates.map((item) => (
+          <Pressable key={item.id} style={[styles.card, item.id === template?.id ? styles.cardOn : null]} onPress={() => selection.chooseTemplate(item.id)}>
+            <Text style={styles.cardTitle}>{item.templateName?.trim() || `Mẫu #${item.id}`}</Text>
+            <Text style={styles.meta}>{catalog.status === 'ready' ? catalog.catalog.types.find((type) => type.id === item.plateTypeId)?.typeName || 'Loại dĩa' : ''}</Text>
           </Pressable>
-          <Pressable style={styles.ghost} disabled={layerIndex <= 0} onPress={() => kiosk.dispatch({ type: 'stack', direction: 'down' })}>
-            <Text style={styles.ghostText}>Xuống dưới</Text>
-          </Pressable>
-          <Pressable style={styles.ghost} disabled={!active} onPress={() => kiosk.dispatch({ type: 'removeSticker' })}>
-            <Text style={styles.ghostText}>Gỡ</Text>
-          </Pressable>
-        </View>
-        <Text style={styles.cardTitle}>Mẫu máy</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: 8 }}>
-          {catalog ? modelsWithCases(catalog).map((item) => (
-            <Pressable key={item.id} style={[styles.card, item.id === model?.id ? styles.cardOn : null, { marginRight: 8, width: 180 }]} onPress={() => kiosk.dispatch({ type: 'chooseModel', id: item.id })}>
-              <Text style={styles.cardTitle}>{item.label}</Text>
+        ))}
+        <Text style={styles.section}>Dĩa còn hàng</Text>
+        {!template ? <Text style={styles.meta}>Hãy chọn một mẫu trước.</Text> : null}
+        {template && plates.length === 0 ? <Text style={styles.meta}>Chưa có dĩa còn hàng cùng loại với mẫu này.</Text> : null}
+        {plates.map((item) => {
+          const color = catalog.status === 'ready' ? catalog.catalog.colors.find((entry) => entry.id === item.colorId && entry.isActive === true) : undefined;
+          return (
+            <Pressable key={item.id} style={[styles.card, item.id === plate?.id ? styles.cardOn : null]} onPress={() => selection.choosePlate(item.id)}>
+              <Text style={styles.cardTitle}>{item.sku || `Dĩa #${item.id}`}</Text>
+              <Text style={styles.meta}>{color?.colorName || item.colorName || 'Màu chưa rõ'} · còn {item.stockQuantity}</Text>
+              <Text style={styles.price}>{money(item.price)}</Text>
             </Pressable>
-          ))}
-        </ScrollView>
-        <Text style={styles.cardTitle}>Ốp</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: 8 }}>
-          {model?.cases.map((item) => (
-            <Pressable key={item.id} style={[styles.card, item.id === offer?.id ? styles.cardOn : null, { marginRight: 8, width: 180 }]} onPress={() => kiosk.dispatch({ type: 'chooseCase', id: item.id })}>
-              <Text style={styles.cardTitle}>{item.label}</Text>
-              <Text style={styles.meta}>{item.price.toLocaleString('vi-VN')} đ</Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-        <FlatList
-          data={catalog?.stickers ?? []}
-          horizontal
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <Pressable style={[styles.card, { width: 120, marginRight: 8 }]} onPress={() => kiosk.dispatch({ type: 'chooseSticker', id: item.id as StickerId })}>
-              <Image source={{ uri: assetUrl(item.imageUrl) }} style={{ width: 88, height: 88, borderRadius: 8 }} />
-              <Text style={styles.cardTitle}>{item.name}</Text>
-              <Text style={styles.meta}>{item.price.toLocaleString('vi-VN')} đ</Text>
-            </Pressable>
-          )}
-        />
-        <Pressable style={[styles.button, { marginTop: 16 }]} disabled={!gate.open} onPress={() => { kiosk.dispatch({ type: 'openCheckout' }); router.push('/checkout'); }}>
-          <Text style={styles.buttonText}>{gate.open ? 'Thanh toán' : 'Chọn ốp và sticker'}</Text>
+          );
+        })}
+        <Pressable style={[styles.button, ready ? null : styles.disabled]} disabled={!ready} onPress={() => router.push('/checkout')}>
+          <Text style={styles.buttonText}>Tiếp tục thanh toán</Text>
         </Pressable>
       </ScrollView>
     </SafeAreaView>
