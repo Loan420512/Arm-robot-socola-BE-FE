@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BE-SWD/BE-SWD.csproj" />
+  <Project Path="BE-SWD.Tests/BE-SWD.Tests.csproj" />
+</Solution>
