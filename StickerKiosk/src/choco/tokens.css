@@ -3,17 +3,17 @@
   --text-xs: .75rem; --text-sm: .875rem; --text-md: 1rem; --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem; --text-3xl: 2.074rem;
   --text-display: var(--text-2xl); --text-section: var(--text-lg); --text-title: var(--text-md);
   --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif; --font-display: var(--font-body);
-  /* Melt palette · nền kem sữa, chữ nâu espresso, điểm nhấn caramel */
-  --color-paper: #fbf6ee; --color-paper-2: #f4ecdd; --color-paper-3: #eadfc9;
-  --color-ink: #2e1b10; --color-ink-2: #53382a; --color-muted: #8a6f5c;
-  --color-rule: #dccbb2; --color-accent: #b45a1b; --color-accent-ink: #fff9f0; --color-focus: #b45a1b;
+  /* Artisanal Luxury · nền kem #FAF5EE, nâu espresso #26140C, caramel #E29E44 */
+  --color-paper: #faf5ee; --color-paper-2: #f3ecdf; --color-paper-3: #e9dcc6;
+  --color-ink: #2b1810; --color-ink-2: #4a3125; --color-muted: #6e5a4f;
+  --color-rule: #e0d2ba; --color-accent: #e29e44; --color-accent-ink: #2b1810; --color-focus: #9c5b18;
   --color-error: #a83a2e; --color-success: #4a7a5c;
   --ink: var(--color-ink); --muted: var(--color-muted); --paper: var(--color-paper); --surface: var(--color-paper-2); --line: var(--color-rule);
-  --cocoa: #2a1a12; --cocoa-deep: #180e08; --cream: #f6efe1;
-  --accent: var(--color-accent); --accent-hover: #96430f; --accent-soft: #f7e3cc; --accent-line: #dfb98c;
+  --cocoa: #26140c; --cocoa-deep: #180d06; --cream: #f3e5d0;
+  --accent: var(--color-accent); --accent-hover: #d18b30; --accent-soft: #f9e7cb; --accent-line: #d9b787;
   --sage: var(--color-success); --sage-soft: #e4efe3; --gold: #8a6414; --gold-soft: #f5e8c8;
   --danger: var(--color-error); --danger-hover: #83291f; --danger-soft: #f9e5df; --danger-line: #dcae9f;
-  --focus: var(--color-focus); --field-line: #b99a76; --product-well: #efe1c8; --avatar-bg: #e3c39a;
+  --focus: var(--color-focus); --field-line: #c4a582; --product-well: #efe2ce; --avatar-bg: #e3c39a;
   --sidebar-ink: #f6e8d2; --sidebar-muted: #cda87f; --sidebar-rule: #5a3a26; --sidebar-active: #f3e2c2; --sidebar-active-ink: #2a1a12; --sidebar-hover: #412917;
   --skeleton: #e7d6bd; --overlay: #1c110bcc;
   --art-plate: #eee4d2; --art-line: #d4c7ae; --art-shadow: #1c0c0860; --art-chocolate: #5b2f20; --art-highlight: #fffdf2;

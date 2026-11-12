@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useQuery } from './api';
 import { useAuth } from './auth';
 import { loadTemplates, type CatalogTemplate } from './studio/catalog';
-import { TemplateArtwork } from './studio/TemplateArtwork';
 import './public.css';
 
 const steps = [
@@ -21,7 +20,13 @@ const questions = [
 ];
 
 function TemplateImage({ template, hero = false }: { template: CatalogTemplate; hero?: boolean }) {
-  return <TemplateArtwork templateId={template.id} name={template.templateName?.trim()||'Mẫu #'+template.id} className={hero?'home-feature-image':'home-template-image'}/>;
+  void hero;
+  const label = template.templateName?.trim() || 'Mẫu #' + template.id;
+  return <div className="home-plate-mini" aria-hidden="true"><span>{label}</span></div>;
+}
+
+function HeroPlate({ name }: { name: string }) {
+  return <div className="home-plate" aria-hidden="true"><span className="home-plate-script">{name}</span></div>;
 }
 
 function HomeBrand() {
@@ -40,7 +45,7 @@ export function PublicHome() {
     <main id="home-main">
       <section className="home-hero home-container" aria-labelledby="home-hero-title">
         <div className="home-hero-copy"><h1 id="home-hero-title">Một món quà<br />rất riêng.</h1><p>Một chiếc dĩa, vài nét chocolate, một lời thương.</p><div className="home-actions"><Link className="button button-primary" to="/trai-nghiem">Thử mẫu trên dĩa<ArrowRight size={18} aria-hidden="true" /></Link><a className="home-link" href="#home-how">Cùng xưởng bắt đầu</a></div></div>
-        <section className="home-feature" aria-label="Mẫu chocolate của xưởng">{featured ? <><div className="home-feature-visual"><TemplateImage template={featured} hero /></div><div className="home-feature-caption"><h2>{featured.templateName?.trim() || `Mẫu #${featured.id}`}</h2><Link className="home-link" to={`/trai-nghiem?template=${featured.id}`}>Xem mẫu trên dĩa<ArrowRight size={17} aria-hidden="true" /></Link></div></> : <div className="home-feature-intro"><Image size={40} weight="light" aria-hidden="true" /><h2>Thư viện chocolate của xưởng</h2><p>{library.loading ? 'Đang tải mẫu chocolate…' : library.error ? 'Mẫu sẽ xuất hiện khi thư viện sẵn sàng.' : 'Xưởng chưa có mẫu chocolate đang sử dụng.'}</p><a className="home-link" href="#home-inspiration">Xem thư viện<ArrowRight size={17} aria-hidden="true" /></a></div>}</section>
+        <section className="home-feature" aria-label="Mẫu chocolate của xưởng">{featured ? <><div className="home-feature-visual"><HeroPlate name={featured.templateName?.trim() || `Mẫu #${featured.id}`} /></div><div className="home-feature-caption"><h2>{featured.templateName?.trim() || `Mẫu #${featured.id}`}</h2><Link className="home-link" to={`/trai-nghiem?template=${featured.id}`}>Xem mẫu trên dĩa<ArrowRight size={17} aria-hidden="true" /></Link></div></> : <div className="home-feature-intro"><Image size={40} weight="light" aria-hidden="true" /><h2>Thư viện chocolate của xưởng</h2><p>{library.loading ? 'Đang tải mẫu chocolate…' : library.error ? 'Mẫu sẽ xuất hiện khi thư viện sẵn sàng.' : 'Xưởng chưa có mẫu chocolate đang sử dụng.'}</p><a className="home-link" href="#home-inspiration">Xem thư viện<ArrowRight size={17} aria-hidden="true" /></a></div>}</section>
       </section>
       <section className="home-inspiration home-container" id="home-inspiration" aria-labelledby="home-inspiration-title"><div className="home-section-heading"><h2 id="home-inspiration-title">Mẫu chocolate của xưởng</h2><p>Chọn từ thư viện mẫu đang sử dụng.</p></div>
         {library.loading ? <div className="home-library-loading" role="status" aria-live="polite"><span className="sr-only">Đang tải thư viện mẫu chocolate…</span><div className="home-inspiration-grid" aria-hidden="true">{Array.from({ length: 3 }, (_, index) => <div className="home-template-skeleton" key={index}><div className="skeleton skeleton-image" /><div className="skeleton skeleton-line" /></div>)}</div></div> : library.error ? <div className="home-library-state" role="alert"><WarningCircle size={30} weight="light" aria-hidden="true" /><div><h3>Thư viện mẫu chưa thể tải</h3><p>{library.error}</p></div><button className="button button-secondary" type="button" onClick={library.reload}>Thử lại</button></div> : templates.length === 0 ? <div className="home-library-state"><Image size={30} weight="light" aria-hidden="true" /><div><h3>Chưa có mẫu chocolate đang sử dụng</h3><p>Mẫu sẽ hiển thị khi xưởng cập nhật thư viện.</p></div></div> : <div className="home-inspiration-grid">{templates.map(template => <article className="home-inspiration-item" key={template.id}><Link className="home-inspiration-art" to={`/trai-nghiem?template=${template.id}`} aria-label={`Xem mẫu ${template.templateName?.trim() || template.id} trên dĩa 3D`}><TemplateImage template={template} /></Link><div className="home-inspiration-copy"><h3>{template.templateName?.trim() || `Mẫu #${template.id}`}</h3><Link className="home-link" to={`/trai-nghiem?template=${template.id}`}>Xem trên dĩa 3D<ArrowRight size={17} aria-hidden="true" /></Link></div></article>)}</div>}
