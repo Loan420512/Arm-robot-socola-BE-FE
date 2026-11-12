@@ -26,6 +26,7 @@ public class PlateController(
     /// <response code="403">The authenticated user does not have the Admin role.</response>
     /// <response code="500">An internal or database error prevented the operation.</response>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ApiResponse<PagedResult<ResponseDto>>> List([FromQuery] FilterRequest filter)
     {
         return new ApiResponse<PagedResult<ResponseDto>>(
@@ -48,6 +49,7 @@ public class PlateController(
     /// <response code="404">The requested record was not found.</response>
     /// <response code="500">An internal or database error prevented the operation.</response>
     [HttpGet(ApiRoutes.ById)]
+    [AllowAnonymous]
     public async Task<ApiResponse<ResponseDto>> Get(int id)
     {
         return new ApiResponse<ResponseDto>(
@@ -140,6 +142,7 @@ public class PlateController(
     /// <response code="404">The requested record was not found.</response>
     /// <response code="500">An internal or database error prevented the operation.</response>
     [HttpGet(ApiRoutes.ByColor)]
+    [AllowAnonymous]
     public Task<ApiResponse<PagedResult<ResponseDto>>> ByColorId(int id, [FromQuery] FilterRequest filter)
     {
         filter.ColorId = id;
@@ -160,6 +163,7 @@ public class PlateController(
     /// <response code="404">The requested record was not found.</response>
     /// <response code="500">An internal or database error prevented the operation.</response>
     [HttpGet(ApiRoutes.ByType)]
+    [AllowAnonymous]
     public Task<ApiResponse<PagedResult<ResponseDto>>> ByTypeId(int id, [FromQuery] FilterRequest filter)
     {
         filter.TypeId = id;
