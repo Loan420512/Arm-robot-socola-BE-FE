@@ -12,6 +12,9 @@ builder.Services.AddScoped<TemplateImageService>();
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
     options.MultipartBodyLengthLimit = templateImages.MaxFileBytes + 65536L);
 builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = templateImages.MaxFileBytes + 65536L);
+var renderPort = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrWhiteSpace(renderPort))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{renderPort}");
 
 // 2. Đọc và kiểm tra cấu hình; không sử dụng khóa bí mật mặc định.
 var jwtOptions = builder.BindValidatedOptions<JwtOptions>(JwtOptions.Section);
@@ -68,10 +71,19 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Development dùng HTTP theo launch profile; các môi trường khác vẫn chuyển sang HTTPS.
-if (!app.Environment.IsDevelopment())
+// Render terminates TLS and sets PORT. Redirecting inside the container loops.
+if (!app.Environment.IsDevelopment() && string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("PORT")))
 {
     app.UseHttpsRedirection();
+}
+if (!app.Environment.IsDevelopment())
+{
+    var webAssets = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+    webAssets.Mappings[".glb"] = "model/gltf-binary";
+    webAssets.Mappings[".gltf"] = "model/gltf+json";
+    webAssets.Mappings[".gcode"] = "text/plain";
+    app.UseDefaultFiles();
+    app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = webAssets });
 }
 var imageDirectory = Path.GetFullPath(templateImages.StoragePath, app.Environment.ContentRootPath);
 Directory.CreateDirectory(imageDirectory);
@@ -88,8 +100,10 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+if (!app.Environment.IsDevelopment())
+    app.MapFallbackToFile("index.html");
 
-// 13. Chỉ tạo Admin ban đầu khi có cấu hình bootstrap tường minh.
+// 13. Chỉ tạo Admin ban đầu khi bảng còn trống.
 if (!string.IsNullOrWhiteSpace(builder.Configuration["Bootstrap:Username"]))
 {
     using var scope = app.Services.CreateScope();
