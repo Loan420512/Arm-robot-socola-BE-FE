@@ -4,6 +4,8 @@ using ChocoRobot.Middleware;
 using ChocoRobot.Services;
 
 // 1. Khởi tạo ứng dụng và các nguồn cấu hình theo môi trường.
+LoadDotEnv(System.IO.Path.Combine(AppContext.BaseDirectory, ".env"));
+LoadDotEnv(System.IO.Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".env"));
 var builder = WebApplication.CreateBuilder(args);
 var templateImages = builder.BindValidatedOptions<TemplateImageOptions>(TemplateImageOptions.Section);
 builder.Services.AddScoped<TemplateImageService>();
@@ -17,6 +19,14 @@ var customerRegistration = builder.BindValidatedOptions<CustomerRegistrationOpti
 builder.Services.AddSingleton<CustomerRegistrationGuard>();
 var securityOptions = builder.BindValidatedOptions<SecurityOptions>(SecurityOptions.Section);
 builder.BindValidatedOptions<ReportingOptions>(ReportingOptions.Section);
+var payOsSection = builder.Configuration.GetSection(PayOsOptions.Section);
+var payOsOptions = payOsSection.Get<PayOsOptions>() ?? new PayOsOptions();
+if (payOsOptions.PermitLimit <= 0) payOsOptions.PermitLimit = 10;
+if (payOsOptions.WindowSeconds <= 0) payOsOptions.WindowSeconds = 60;
+builder.Services.AddSingleton(Microsoft.Extensions.Options.Options.Create(payOsOptions));
+builder.Services.AddScoped<PayOsService>();
+builder.Services.AddHttpClient();
+builder.Services.AddPayOsRateLimiting(payOsOptions);
 
 // 3. Kết nối SQL Server, không tự tạo database hoặc chạy migration.
 builder.Services.AddDatabaseServices(builder.Configuration);
@@ -92,6 +102,24 @@ app.Run();
 
 public partial class Program
 {
+    static void LoadDotEnv(string path)
+    {
+        string fullPath;
+        try { fullPath = System.IO.Path.GetFullPath(path); }
+        catch { return; }
+        if (!System.IO.File.Exists(fullPath)) return;
+        foreach (var rawLine in System.IO.File.ReadAllLines(fullPath))
+        {
+            var line = rawLine.Trim();
+            if (line.Length == 0 || line.StartsWith('#')) continue;
+            var separator = line.IndexOf('=');
+            if (separator <= 0) continue;
+            var key = line[..separator].Trim();
+            var value = line[(separator + 1)..].Trim().Trim('"');
+            if (!string.IsNullOrEmpty(key) && System.Environment.GetEnvironmentVariable(key) is null)
+                System.Environment.SetEnvironmentVariable(key, value);
+        }
+    }
 }
 
 

@@ -20,7 +20,7 @@ public sealed class SwaggerBusinessGroups : IOperationFilter, IDocumentFilter
             ("chocolate-design-management", "Chocolate designs, preview image uploads and G-code references.", [typeof(ChocoTemplateController)]),
             ("design-element-management", "Chocolate design elements, positions and scale.", [typeof(TemplateElementController)]),
             ("order-management", "Customer orders and controlled order status transitions.", [typeof(OrderController)]),
-            ("payment-management", "Payment records and explicit cash receipt confirmation.", [typeof(PaymentController)]),
+            ("payment-management", "Payment records, explicit cash receipt confirmation and PayOS online checkout.", [typeof(PaymentController), typeof(PayOsCheckoutController)]),
             ("refund-management", "Refund requests and review decisions. Approval does not execute a refund.", [typeof(RefundTransactionController)]),
             ("incident-management", "Operational incidents, investigation and resolution status.", [typeof(IncidentReportController)]),
             ("cash-flow-audit-management", "Cash flow audits and financial reconciliation.", [typeof(CashFlowAuditController)]),

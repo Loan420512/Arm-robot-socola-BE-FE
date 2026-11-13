@@ -48,7 +48,7 @@ export default function StudioPage() {
   /* oxlint-enable react/preserve-manual-memoization */
   const strokes = draft.strokes.length ? manualStrokes : templateStrokes;
   const pathLoading = Boolean(currentTemplateId && templatePath.loading);
-  const canCheckout = Boolean(!catalog.loading && !catalog.error && template && typeof template.plateTypeId === 'number' && template.plateTypeId > 0 && plate && typeof plate.price === 'number' && typeof plate.stockQuantity === 'number' && plate.stockQuantity > 0 && draft.strokes.length === 0);
+  const canCheckout = Boolean(!catalog.loading && !catalog.error && template && typeof template.plateTypeId === 'number' && template.plateTypeId > 0 && plate && typeof plate.price === 'number' && typeof plate.stockQuantity === 'number' && plate.stockQuantity > 0);
   useEffect(()=>{document.title='Mẫu chocolate từ xưởng | ChocoRobot Studio';},[]);
   useEffect(()=>{
     if(!playing)return;let frame=0;let last=0;

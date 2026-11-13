@@ -27,6 +27,7 @@ public static class StatusValues
 public static class PaymentMethods
 {
     public const string Cash = "Cash";
+    public const string PayOs = "PayOs";
     public const string VNPay = "VNPay";
     public const string Momo = "Momo";
     public const string ZaloPay = "ZaloPay";
@@ -104,6 +105,7 @@ public static class BusinessValues
     public static readonly IReadOnlyList<string> Methods = Array.AsReadOnly(new[]
     {
         PaymentMethods.Cash,
+        PaymentMethods.PayOs,
         PaymentMethods.VNPay,
         PaymentMethods.Momo,
         PaymentMethods.ZaloPay
@@ -158,6 +160,10 @@ public static class ApiRoutes
     public const string TemplateElements = Prefix + "template-elements";
     public const string Orders = Prefix + "orders";
     public const string Payments = Prefix + "payments";
+    public const string PayOsCheckout = Prefix + "checkout/payos";
+    public const string PayOsRetry = Prefix + "checkout/payos/retry";
+    public const string PayOsStatus = Prefix + "checkout/payos/status/{orderId:int}";
+    public const string PayOsWebhook = Prefix + "webhooks/payos";
     public const string Refunds = Prefix + "refunds";
     public const string IncidentReports = Prefix + "incident-reports";
     public const string CashFlowAudits = Prefix + "cash-flow-audits";

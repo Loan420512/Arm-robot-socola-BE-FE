@@ -13,6 +13,8 @@ import { RESOURCES } from './resources';
 const StudioPage = lazy(() => import('./studio/StudioPage'));
 const RequestPage = lazy(() => import('./studio/RequestPage'));
 const CheckoutPage = lazy(() => import('./studio/CheckoutPage'));
+const PaymentSuccessPage = lazy(() => import('./studio/PaymentResultPage').then(module => ({ default: () => <module.default success /> })));
+const PaymentCancelPage = lazy(() => import('./studio/PaymentResultPage').then(module => ({ default: () => <module.default success={false} /> })));
 
 const groups: { label: string; links: { to: string; label: string; icon: Icon; end?: boolean }[] }[] = [
   { label: 'Không gian làm việc', links: [
@@ -180,6 +182,8 @@ export function ChocoApp() {
     <Route path="/trai-nghiem" element={<StudioPage />} />
     <Route path="/yeu-cau-xit" element={<RequestPage />} />
     <Route path="/thanh-toan-mau" element={<CheckoutPage />} />
+    <Route path="/thanh-toan-thanh-cong" element={<PaymentSuccessPage />} />
+    <Route path="/thanh-toan-that-bai" element={<PaymentCancelPage />} />
     <Route path="/dang-nhap" element={<LoginPage />} />
     <Route path="/dang-ky" element={<RegisterPage />} />
     <Route element={<Workspace />}>

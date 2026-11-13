@@ -221,6 +221,24 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddPayOsRateLimiting(
+        this IServiceCollection services,
+        PayOsOptions payOs)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.AddPolicy(PayOsOptions.RatePolicy, context =>
+                RateLimitPartition.GetFixedWindowLimiter(context.Connection.RemoteIpAddress?.ToString() ?? "unknown", _ =>
+                    new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = payOs.PermitLimit,
+                        Window = TimeSpan.FromSeconds(payOs.WindowSeconds), QueueLimit = 0
+                    }));
+        });
+
+        return services;
+    }
+
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
