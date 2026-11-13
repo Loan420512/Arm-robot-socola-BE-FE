@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -22,12 +23,32 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString(DatabaseDefinitions.ConnectionName);
+        var connectionString = ComposePostgresConnection(configuration)
+            ?? configuration.GetConnectionString(DatabaseDefinitions.ConnectionName);
 
         if (string.IsNullOrWhiteSpace(connectionString))
         {
             throw new InvalidOperationException(
                 "Configure ConnectionStrings__DefaultConnection using environment variables or User Secrets");
+        }
+
+        if (IsPostgresConnection(connectionString))
+        {
+            try
+            {
+                var postgres = new NpgsqlConnectionStringBuilder(connectionString);
+                if (!IsAllowedDatabase(postgres.Database))
+                {
+                    throw new InvalidOperationException("The configured database must be ChocoRobotDB");
+                }
+            }
+            catch (ArgumentException)
+            {
+                throw new InvalidOperationException("Invalid PostgreSQL connection configuration");
+            }
+
+            services.AddDbContext<ChocoRobotDbContext>(options => options.UseNpgsql(connectionString));
+            return services;
         }
 
         try
@@ -50,6 +71,51 @@ public static class ServiceCollectionExtensions
 
         services.AddDbContext<ChocoRobotDbContext>(options => options.UseSqlServer(connectionString));
         return services;
+    }
+
+    // Render gắn host, user, password và database riêng. Chuỗi này thắng connection string SQL cũ.
+    private static string? ComposePostgresConnection(IConfiguration configuration)
+    {
+        var host = configuration["PGHOST"];
+        var user = configuration["PGUSER"];
+        var password = configuration["PGPASSWORD"];
+        var database = configuration["PGDATABASE"];
+        if (string.IsNullOrWhiteSpace(host) || string.IsNullOrWhiteSpace(user)
+            || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(database))
+        {
+            return null;
+        }
+
+        if (!int.TryParse(configuration["PGPORT"], out var port))
+            port = 5432;
+
+        var ssl = host.Contains(".render.com", StringComparison.OrdinalIgnoreCase)
+            ? SslMode.Require
+            : SslMode.Disable;
+        return new NpgsqlConnectionStringBuilder
+        {
+            Host = host,
+            Port = port,
+            Username = user,
+            Password = password,
+            Database = database,
+            SslMode = ssl
+        }.ConnectionString;
+    }
+
+    // Render đặt tên database theo instance (chocorobot_db). SQL Server local vẫn bắt buộc ChocoRobotDB.
+    private static bool IsAllowedDatabase(string? database)
+    {
+        return string.Equals(database, DatabaseDefinitions.Name, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(database, "chocorobot_db", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsPostgresConnection(string connectionString)
+    {
+        var value = connectionString.TrimStart();
+        return value.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase)
+            || value.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase)
+            || value.Contains("Host=", StringComparison.OrdinalIgnoreCase);
     }
 
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
