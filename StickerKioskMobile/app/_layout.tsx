@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ScreenHeader } from '../src/brand';
 import { SelectionProvider } from '../src/selection';
 import { colors } from '../src/theme';
 
@@ -13,18 +14,14 @@ export default function RootLayout() {
           <StatusBar style="dark" />
           <Stack
             screenOptions={{
-              headerTintColor: colors.ink,
-              headerStyle: { backgroundColor: colors.panel },
-              headerTitleStyle: { fontWeight: '600' },
-              headerShadowVisible: false,
+              header: ({ back }) => <ScreenHeader back={back != null} />,
               contentStyle: { backgroundColor: colors.page },
             }}
           >
-            <Stack.Screen name="index" options={{ title: 'ChocoRobot' }} />
-            <Stack.Screen name="studio" options={{ title: 'Chọn mẫu và dĩa' }} />
-            <Stack.Screen name="checkout" options={{ title: 'Thanh toán' }} />
-            <Stack.Screen name="admin/login" options={{ title: 'Đăng nhập' }} />
-            <Stack.Screen name="admin/index" options={{ title: 'Đơn hàng' }} />
+            <Stack.Screen name="index" options={{ headerBackVisible: false }} />
+            <Stack.Screen name="demo" />
+            <Stack.Screen name="studio" />
+            <Stack.Screen name="checkout" />
           </Stack>
         </SelectionProvider>
       </SafeAreaProvider>

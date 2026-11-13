@@ -6,6 +6,7 @@ export type CatalogTemplate = {
   plateTypeId: number | null;
   templateName: string | null;
   imagePreviewUrl: string | null;
+  gcodeFileUrl: string | null;
   isActive: boolean | null;
 };
 
@@ -19,6 +20,7 @@ export type CatalogPlate = {
   colorName: string | null;
   colorCode: string | null;
   typeName: string | null;
+  dimensions: string | null;
 };
 
 export type CatalogColor = { id: number; colorName: string; colorCode: string; isActive: boolean | null };
@@ -86,6 +88,7 @@ function templateOf(value: unknown): CatalogTemplate {
     plateTypeId: value.plateTypeId as number | null,
     templateName: value.templateName as string | null,
     imagePreviewUrl: value.imagePreviewUrl as string | null,
+    gcodeFileUrl: typeof value.gcodeFileUrl === 'string' ? value.gcodeFileUrl : null,
     isActive: value.isActive as boolean | null,
   };
 }
@@ -106,6 +109,7 @@ function plateOf(value: unknown): CatalogPlate {
     colorName: typeof value.colorName === 'string' ? value.colorName : null,
     colorCode: typeof value.colorCode === 'string' ? value.colorCode : null,
     typeName: typeof value.typeName === 'string' ? value.typeName : null,
+    dimensions: typeof value.dimensions === 'string' ? value.dimensions : null,
   };
 }
 
@@ -179,6 +183,34 @@ export function money(value: number | null | undefined): string {
 
 export function activeTemplates(catalog: CatalogData): CatalogTemplate[] {
   return catalog.templates.filter((item) => item.isActive === true && typeof item.plateTypeId === 'number' && item.plateTypeId > 0);
+}
+
+export type CatalogElement = {
+  id: number;
+  templateId: number;
+  elementName: string | null;
+  positionX: number | null;
+  positionY: number | null;
+  scale: number | null;
+};
+
+export async function loadTemplateElements(templateId: number, signal?: AbortSignal): Promise<CatalogElement[]> {
+  if (!Number.isSafeInteger(templateId) || templateId < 1) throw new ApiError(0, 'Mã mẫu chưa hợp lệ.');
+  const rows = await loadRows(`/api/template-elements/by-template/${templateId}`, signal ?? new AbortController().signal);
+  return rows.map((value) => {
+    if (!record(value) || !id(value.id) || !id(value.templateId)) {
+      throw new ApiError(502, 'Bố cục trả về không thuộc mẫu đang chọn.');
+    }
+    if (value.templateId !== templateId) throw new ApiError(502, 'Bố cục trả về không thuộc mẫu đang chọn.');
+    return {
+      id: value.id,
+      templateId: value.templateId,
+      elementName: typeof value.elementName === 'string' || value.elementName === null ? value.elementName : null,
+      positionX: typeof value.positionX === 'number' || value.positionX === null ? value.positionX as number | null : null,
+      positionY: typeof value.positionY === 'number' || value.positionY === null ? value.positionY as number | null : null,
+      scale: typeof value.scale === 'number' || value.scale === null ? value.scale as number | null : null,
+    };
+  });
 }
 
 export function platesForTemplate(catalog: CatalogData, template: CatalogTemplate | undefined): CatalogPlate[] {

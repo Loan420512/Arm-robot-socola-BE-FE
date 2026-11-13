@@ -9,7 +9,11 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "local.stikerkiosk"
+      "bundleIdentifier": "local.stikerkiosk",
+      "appleTeamId": "2AX99GD7R5",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "local.stikerkiosk",

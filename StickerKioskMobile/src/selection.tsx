@@ -5,6 +5,7 @@ type Selection = {
   plateId: number | null;
   chooseTemplate: (id: number) => void;
   choosePlate: (id: number) => void;
+  applySelection: (templateId: number | null, plateId: number | null) => void;
 };
 
 const SelectionContext = createContext<Selection | null>(null);
@@ -23,6 +24,10 @@ export function SelectionProvider(props: { readonly children: ReactNode }) {
     },
     choosePlate(id) {
       setPlateId(id);
+    },
+    applySelection(nextTemplate, nextPlate) {
+      setTemplateId(nextTemplate);
+      setPlateId(nextPlate);
     },
   }), [plateId, templateId]);
   return <SelectionContext.Provider value={value}>{props.children}</SelectionContext.Provider>;

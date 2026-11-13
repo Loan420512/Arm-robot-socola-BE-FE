@@ -10,7 +10,11 @@
     },
     "preview": {
       "distribution": "internal",
-      "ios": { "simulator": true }
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://chocorobot.onrender.com"
+      },
+      "ios": { "simulator": false },
+      "android": { "buildType": "apk" }
     },
     "production": {
       "autoIncrement": true
