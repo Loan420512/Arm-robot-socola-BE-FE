@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { money, useCatalog, activeTemplates, type CatalogData } from '../src/catalog';
 import { useSelection } from '../src/selection';
@@ -29,13 +29,13 @@ export default function StudioScreen() {
   const catalog = useCatalog();
   const selection = useSelection();
   const [draft, setDraft] = useState<StudioDraft>(readDraft);
+  const [mode, setMode] = useState<Mode>('templates');
   useEffect(() => {
-    if (draft.templateId) return;
+    if (draft.templateId || draft.strokes.length > 0 || mode === 'draw') return;
     const chosen = selection.templateId ?? (catalog.status === 'ready' ? activeTemplates(catalog.catalog)[0]?.id : undefined);
     if (!chosen) return;
-    setDraft((current) => current.templateId ? current : { ...current, templateId: chosen, strokes: [] });
-  }, [catalog, draft.templateId, selection.templateId]);
-  const [mode, setMode] = useState<Mode>('templates');
+    setDraft((current) => current.templateId || current.strokes.length > 0 ? current : { ...current, templateId: chosen, strokes: [] });
+  }, [catalog, draft.strokes.length, draft.templateId, mode, selection.templateId]);
   const [progress, setProgress] = useState(1);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
@@ -57,7 +57,8 @@ export default function StudioScreen() {
   const template = templates.find((item) => item.id === draft.templateId);
   const plates = platesForStudio(data, template?.plateTypeId ?? null);
   const plate = plates.find((item) => item.id === draft.plateId);
-  const color = data?.colors.find((item) => item.id === plate?.colorId);
+  const selectedPlate = plate ?? data?.plates.find((item) => item.id === draft.plateId);
+  const color = data?.colors.find((item) => item.id === selectedPlate?.colorId);
   const plateColor = color?.colorCode && /^#[a-f0-9]{6}$/i.test(color.colorCode) ? color.colorCode : '';
   const manualStrokes = useMemo(() => buildStrokes(draft), [draft]);
   const currentTemplateId = catalog.status === 'ready' && draft.strokes.length === 0 ? template?.id : undefined;
@@ -150,8 +151,7 @@ export default function StudioScreen() {
   }
 
   const paint = useRef(0);
-  const screen = useWindowDimensions();
-  const padSide = Math.round(Math.min(screen.width - 32, screen.height * 0.42));
+  const [drawSide, setDrawSide] = useState(0);
 
   return (
     <SafeAreaView style={styles.screen} edges={['bottom']}>
@@ -163,62 +163,88 @@ export default function StudioScreen() {
         {mode === 'templates' ? <Text style={styles.meta}>Kéo để xoay dĩa. Chụm hai ngón để phóng to hoặc thu nhỏ.</Text> : null}
       </View>
       {mode === 'draw' ? (
-        <View style={{ paddingHorizontal: 16 }}>
-          <Text style={styles.meta}>Đặt ngón tay trong vòng tròn và kéo. Nét hiện ngay dưới tay.</Text>
-          <View style={{ width: padSide, height: padSide, alignSelf: 'center' }}>
-            <DrawingPad
-                strokes={strokes}
-                live={drawing}
-                size={draft.size}
-                rotation={draft.rotation}
-                lineWidth={draft.lineWidth}
-                onStart={(point) => { drawingRef.current = [point]; setDrawing([point]); }}
-                onMove={(point) => {
-                  const points = drawingRef.current;
-                  if (!points || points.length >= 500) return;
-                  const last = points[points.length - 1];
-                  if (!last || Math.hypot(point.x - last.x, point.y - last.y) < 0.008) return;
-                  drawingRef.current = [...points, point];
-                  if (paint.current) return;
-                  paint.current = requestAnimationFrame(() => {
+        <View style={{ flex: 1, minHeight: 0, paddingHorizontal: 16 }}>
+          <Text style={styles.meta}>Chạm vào dĩa và kéo. Nét chocolate hiện ngay dưới ngón tay.</Text>
+          <View
+            style={{ flex: 1, minHeight: 0, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}
+            onLayout={(event) => {
+              const next = Math.floor(Math.min(event.nativeEvent.layout.width, event.nativeEvent.layout.height));
+              setDrawSide((current) => (Math.abs(current - next) < 1 ? current : next));
+            }}
+          >
+            {drawSide > 0 ? (
+              <View style={{ width: drawSide, height: drawSide }}>
+                <DrawingPad
+                  strokes={manualStrokes}
+                  live={drawing}
+                  size={draft.size}
+                  rotation={draft.rotation}
+                  lineWidth={draft.lineWidth}
+                  onStart={(point) => { drawingRef.current = [point]; setDrawing([point]); }}
+                  onMove={(point) => {
+                    const points = drawingRef.current;
+                    if (!points) {
+                      drawingRef.current = [point];
+                      setDrawing([point]);
+                      return;
+                    }
+                    if (points.length >= 500) return;
+                    const last = points[points.length - 1];
+                    if (!last || Math.hypot(point.x - last.x, point.y - last.y) < 0.004) return;
+                    drawingRef.current = [...points, point];
+                    if (paint.current) return;
+                    paint.current = requestAnimationFrame(() => {
+                      paint.current = 0;
+                      setDrawing(drawingRef.current ?? []);
+                    });
+                  }}
+                  onEnd={() => {
+                    if (paint.current) cancelAnimationFrame(paint.current);
                     paint.current = 0;
-                    setDrawing(drawingRef.current ?? []);
-                  });
-                }}
-                onEnd={() => {
-                  if (paint.current) cancelAnimationFrame(paint.current);
-                  paint.current = 0;
-                  const points = drawingRef.current;
-                  drawingRef.current = null;
-                  setDrawing([]);
-                  if (!points || points.length < 2) return;
-                  commit(appendStroke(draft, points, '#5b2f20'));
-                }}
-                onInteraction={() => { /* Bảng vẽ nằm ngoài vùng cuộn. */ }}
-              />
-            </View>
-          <Pressable style={[styles.ghost, draft.strokes.length === 0 ? styles.disabled : null]} disabled={draft.strokes.length === 0} onPress={() => commit(undoStroke(draft))}>
-            <Text style={styles.ghostText}>Bỏ nét vừa vẽ</Text>
-          </Pressable>
+                    const points = drawingRef.current;
+                    drawingRef.current = null;
+                    setDrawing([]);
+                    if (!points || points.length < 2) return;
+                    commit(appendStroke(draft, points, '#5b2f20'));
+                  }}
+                  onInteraction={() => { /* Bảng vẽ nằm ngoài vùng cuộn. */ }}
+                />
+              </View>
+            ) : null}
+          </View>
+          <View style={styles.chipRow}>
+            <Pressable style={[styles.ghost, styles.flexChip, { marginTop: 0 }, draft.strokes.length === 0 ? styles.disabled : null]} disabled={draft.strokes.length === 0} onPress={() => commit(undoStroke(draft))}>
+              <Text style={styles.ghostText}>Bỏ nét</Text>
+            </Pressable>
+            <Pressable style={[styles.ghost, styles.flexChip, { marginTop: 0 }]} onPress={() => update({ lineWidth: Math.max(0.006, Number((draft.lineWidth - 0.003).toFixed(3))) })}>
+              <Text style={styles.ghostText}>Nét mảnh</Text>
+            </Pressable>
+            <Pressable style={[styles.ghost, styles.flexChip, { marginTop: 0 }]} onPress={() => update({ lineWidth: Math.min(0.025, Number((draft.lineWidth + 0.003).toFixed(3))) })}>
+              <Text style={styles.ghostText}>Nét đậm</Text>
+            </Pressable>
+          </View>
+          <Text style={styles.meta}>Mở Thư viện để xem nét này trên dĩa 3D.</Text>
         </View>
-      ) : null}
-      <View style={mode === 'draw' ? { height: 200 } : { flex: 1, minHeight: 280 }}>
-        <StudioViewport
-          strokes={strokes}
-          plateColor={plateColor}
-          templateImageUrl={null}
-          templateScale={draft.size}
-          templateRotation={draft.rotation}
-          view={view}
-          progress={progress}
-          showRobot={showRobot}
-          resetKey={resetKey}
-          onDuration={setDurationSeconds}
-          onError={setSceneError}
-          onTemplateError={setSceneError}
-          onInteraction={() => { /* Khung 3D nằm ngoài vùng cuộn. */ }}
-        />
-      </View>
+      ) : (
+        <View style={{ flex: 1, minHeight: 240 }}>
+          <StudioViewport
+            strokes={strokes}
+            plateColor={plateColor}
+            templateImageUrl={null}
+            templateScale={draft.size}
+            templateRotation={draft.rotation}
+            view={view}
+            progress={progress}
+            showRobot={showRobot}
+            resetKey={resetKey}
+            onDuration={setDurationSeconds}
+            onError={setSceneError}
+            onTemplateError={setSceneError}
+            onInteraction={() => { /* Khung 3D nằm ngoài vùng cuộn. */ }}
+          />
+        </View>
+      )}
+      {mode === 'templates' ? (
       <ScrollView style={{ flex: 1 }} scrollEnabled={scrollEnabled} contentContainerStyle={styles.pad}>
         {mode === 'templates' ? (
           <>
@@ -241,7 +267,7 @@ export default function StudioScreen() {
             ))}
           </>
         ) : (
-          <Text style={styles.meta}>Tối đa 30 nét. Bản nháp nằm trên máy này và chưa gửi được vào đơn hàng.</Text>
+          <Text style={styles.meta}>Tối đa 30 nét. Mở Thư viện để xem nét này trên dĩa 3D. Bản nháp chưa gửi được vào đơn hàng.</Text>
         )}
         <Text style={styles.section}>Dĩa phù hợp</Text>
         {!template ? <Text style={styles.meta}>Chọn mẫu trước</Text> : null}
@@ -264,7 +290,6 @@ export default function StudioScreen() {
         ) : null}
         <Range label="Kích thước bố cục" value={draft.size} min={0.45} max={1} step={0.01} format={(value) => `${Math.round(value * 100)}%`} onChange={(size) => update({ size })} onInteraction={(active) => setScrollEnabled(!active)} />
         <Range label="Góc xoay" value={draft.rotation} min={-180} max={180} step={5} format={(value) => `${value}°`} onChange={(rotation) => update({ rotation })} onInteraction={(active) => setScrollEnabled(!active)} />
-        {mode === 'draw' ? <Range label="Độ dày nét" value={draft.lineWidth} min={0.006} max={0.025} step={0.001} format={(value) => value.toFixed(3)} onChange={(lineWidth) => update({ lineWidth })} onInteraction={(active) => setScrollEnabled(!active)} /> : null}
         <Text style={styles.section}>Điều khiển mô phỏng</Text>
         <View style={styles.chipRow}>
           <Pressable style={[styles.ghost, view === 'perspective' ? styles.cardOn : null]} onPress={() => setView('perspective')}><Text style={styles.ghostText}>Góc nghiêng</Text></Pressable>
@@ -318,6 +343,7 @@ export default function StudioScreen() {
           <Text style={styles.buttonText}>Tiếp tục thanh toán</Text>
         </Pressable>
       </ScrollView>
+      ) : null}
     </SafeAreaView>
   );
 }
