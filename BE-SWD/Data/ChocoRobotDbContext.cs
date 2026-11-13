@@ -22,6 +22,35 @@ public class ChocoRobotDbContext(DbContextOptions<ChocoRobotDbContext> options) 
         ConfigurePayment(modelBuilder);
         ConfigureRefundTransaction(modelBuilder);
         SchemaChecks.Configure(modelBuilder);
+        if ((Database.ProviderName ?? "").Contains("Npgsql", StringComparison.Ordinal))
+            AdaptStoreTypesForPostgres(modelBuilder);
+    }
+
+    // Chỉ đổi kiểu lưu trữ khi host là PostgreSQL. Quan hệ và ràng buộc nghiệp vụ giữ nguyên.
+    private static void AdaptStoreTypesForPostgres(ModelBuilder modelBuilder)
+    {
+        foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(entity => entity.GetProperties()))
+        {
+            var storeType = property.GetColumnType();
+            if (storeType is not null)
+            {
+                var mapped = storeType switch
+                {
+                    "bit" => "boolean",
+                    "datetime" => "timestamp without time zone",
+                    "float" => "double precision",
+                    "nvarchar(max)" => "text",
+                    _ when storeType.StartsWith("nvarchar(", StringComparison.Ordinal) => storeType.Replace("nvarchar", "character varying"),
+                    _ => storeType
+                };
+                if (!string.Equals(mapped, storeType, StringComparison.Ordinal))
+                    property.SetColumnType(mapped);
+            }
+
+            var defaultSql = property.GetDefaultValueSql();
+            if (defaultSql is not null && defaultSql.Contains("GETDATE", StringComparison.OrdinalIgnoreCase))
+                property.SetDefaultValueSql("CURRENT_TIMESTAMP");
+        }
     }
 
     private static void ConfigureAdmin(ModelBuilder modelBuilder)
