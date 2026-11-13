@@ -1,3 +1,5 @@
+using System.Net.Http.Headers;
+using System.Text.Json;
 using ChocoRobot.Common;
 using ChocoRobot.Configuration;
 using Microsoft.Extensions.Options;
@@ -6,7 +8,10 @@ using SkiaSharp;
 
 namespace ChocoRobot.Services;
 
-public sealed class TemplateImageService(IOptions<TemplateImageOptions> options, IWebHostEnvironment environment)
+public sealed class TemplateImageService(
+    IOptions<TemplateImageOptions> options,
+    IOptions<CloudinaryOptions> cloudinary,
+    IHttpClientFactory httpFactory)
 {
     public async Task<string> Upload(IFormFile file, PathString pathBase, CancellationToken cancellationToken)
     {
@@ -44,23 +49,27 @@ public sealed class TemplateImageService(IOptions<TemplateImageOptions> options,
         using var image = SKImage.FromBitmap(bitmap);
         using var encoded = image.Encode(format, 90);
         {
-            // Re-encode pixels only: discard metadata, appended payloads and original filenames.
-            var directory = Path.GetFullPath(settings.StoragePath, environment.ContentRootPath);
-            Directory.CreateDirectory(directory);
+            var cloud = cloudinary.Value;
+            if (string.IsNullOrWhiteSpace(cloud.CloudName) || string.IsNullOrWhiteSpace(cloud.UploadPreset))
+                throw new ApiException(503, "Cloudinary chưa được cấu hình trên máy chủ.");
             var name = Guid.NewGuid().ToString("N") + (expected == "PNG" ? ".png" : ".jpg");
-            var destination = Path.Combine(directory, name);
-            try
-            {
-                await using var output = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None);
-                await output.WriteAsync(encoded.ToArray(), cancellationToken);
-            }
-            catch
-            {
-                File.Delete(destination);
-                throw;
-            }
-            // A relative public URL is host independent and fits the existing database field.
-            return $"{pathBase}{settings.RequestPath}/{name}";
+            var contentType = expected == "PNG" ? "image/png" : "image/jpeg";
+            using var form = new MultipartFormDataContent();
+            var payload = new ByteArrayContent(encoded.ToArray());
+            payload.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            form.Add(payload, "file", name);
+            form.Add(new StringContent(cloud.UploadPreset), "upload_preset");
+            using var client = httpFactory.CreateClient();
+            using var response = await client.PostAsync(
+                $"https://api.cloudinary.com/v1_1/{cloud.CloudName}/image/upload", form, cancellationToken);
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (!response.IsSuccessStatusCode)
+                throw new ApiException(502, "Không tải được ảnh lên Cloudinary.");
+            using var document = JsonDocument.Parse(body);
+            var secureUrl = document.RootElement.TryGetProperty("secure_url", out var url) ? url.GetString() : null;
+            if (string.IsNullOrWhiteSpace(secureUrl))
+                throw new ApiException(502, "Cloudinary không trả về đường dẫn ảnh.");
+            return secureUrl;
         }
     }
 }

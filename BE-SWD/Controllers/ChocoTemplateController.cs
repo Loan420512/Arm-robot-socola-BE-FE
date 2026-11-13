@@ -14,7 +14,7 @@ public class ChocoTemplateController(
     ICrudService<ChocoTemplate, CreateRequest, UpdateRequest, ResponseDto> service, TemplateImageService images) : ControllerBase
 {
     /// <summary>Upload a chocolate template preview image</summary>
-    /// <remarks>Admin only. Upload PNG/JPEG using multipart/form-data. Returns imagePreviewUrl for the existing create/update request; no database record is created by this upload.</remarks>
+    /// <remarks>Admin only. Upload PNG/JPEG using multipart/form-data. The file is stored on Cloudinary and imagePreviewUrl is the public Cloudinary URL. Saving the template record is still a separate request.</remarks>
     /// <param name="request">Image selected from your computer.</param>
     /// <param name="cancellationToken">Request cancellation.</param>
     /// <response code="200">Image stored; use data.imagePreviewUrl when creating or updating a template.</response>

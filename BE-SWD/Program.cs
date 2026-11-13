@@ -8,6 +8,7 @@ LoadDotEnv(System.IO.Path.Combine(AppContext.BaseDirectory, ".env"));
 LoadDotEnv(System.IO.Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".env"));
 var builder = WebApplication.CreateBuilder(args);
 var templateImages = builder.BindValidatedOptions<TemplateImageOptions>(TemplateImageOptions.Section);
+builder.Services.Configure<CloudinaryOptions>(builder.Configuration.GetSection(CloudinaryOptions.Section));
 builder.Services.AddScoped<TemplateImageService>();
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
     options.MultipartBodyLengthLimit = templateImages.MaxFileBytes + 65536L);
